@@ -369,3 +369,35 @@ export const getChainGigs = async (forceRefresh = false) => {
         return [];
     }
 };
+// Fetch Recent Contract Events for Activity Feed
+export const getContractEvents = async () => {
+    try {
+        const latestLedger = await server.getLatestLedger();
+        const startLedger = latestLedger.sequence - 10000; // Look back ~10k ledgers (~12 hours)
+
+        const response = await server.getEvents({
+            startLedger: startLedger,
+            filters: [
+                {
+                    type: "contract",
+                    contractIds: [CONTRACT_ID],
+                },
+            ],
+        });
+
+        // Map events to a readable activity feed
+        return response.events.map((e) => {
+            const topics = e.topic.map((t) => scValToNative(t));
+            return {
+                id: e.id,
+                ledger: e.ledger,
+                ledgerClosedAt: e.ledgerClosedAt,
+                topic: topics[0], // Usually the event name
+                data: scValToNative(e.value),
+            };
+        });
+    } catch (error) {
+        console.error("Events Fetch Error:", error);
+        return [];
+    }
+};
