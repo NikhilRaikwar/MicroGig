@@ -46,6 +46,8 @@ const PostTaskForm = ({ publicKey, onTaskPosted }: PostTaskFormProps) => {
       const result = await postGigOnChain(title.trim(), description.trim(), rewardNum, publicKey);
 
       console.log("Contract Result:", result);
+      sessionStorage.removeItem("microgig_chain_gigs"); // Clear Home Cache
+
       toast.success("Gig Posted On-Chain! 🚀", {
         description: "Your task is now live on the Stellar Network."
       });

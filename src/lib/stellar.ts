@@ -31,6 +31,7 @@ export const connectWallet = async (): Promise<string | null> => {
     const { address } = await kit.getAddress();
 
     if (address) {
+      localStorage.setItem("microgig_wallet_addr", address); // Persist address
       toast.success("Wallet connected!", {
         description: `${address.slice(0, 6)}...${address.slice(-4)}`,
       });
@@ -42,6 +43,11 @@ export const connectWallet = async (): Promise<string | null> => {
     toast.error("Failed to connect wallet");
     return null;
   }
+};
+
+// Auto-connect helper (Silent)
+export const getPersistedAddress = (): string | null => {
+  return localStorage.getItem("microgig_wallet_addr");
 };
 
 // Fetch XLM Balance
@@ -85,6 +91,7 @@ export const signTransaction = async (xdr: string): Promise<string> => {
 
 // Disconnect Wallet
 export const disconnectWallet = async () => {
+  localStorage.removeItem("microgig_wallet_addr");
   // @ts-ignore
   if (kit.disconnect) {
     // @ts-ignore

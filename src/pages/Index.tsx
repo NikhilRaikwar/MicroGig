@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import PostTaskForm from "@/components/PostTaskForm";
 import TaskCard from "@/components/TaskCard";
 import { motion } from "framer-motion";
-import { Search, Filter, Zap, ArrowRight } from "lucide-react";
+import { Search, Filter, Zap, ArrowRight, RefreshCw } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
@@ -16,15 +16,19 @@ const Index = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    // Load local for immediate feedback
+    // 1. Load local for immediate feedback
     setTasks(loadTasks());
 
-    // Attempt to load from chain
+    // 2. Auto-connect if address exists
+    import("@/lib/stellar").then(({ getPersistedAddress }) => {
+      const saved = getPersistedAddress();
+      if (saved) setPublicKey(saved);
+    });
+
+    // 3. Attempt to load from chain
     import("@/lib/contract").then(({ getChainGigs }) => {
       getChainGigs().then(chainTasks => {
-        console.log("Chain Tasks Loaded:", chainTasks);
-        if (chainTasks.length > 0) {
-          // Merge with local tasks or replace. For this demo, let's prioritize chain.
+        if (chainTasks && chainTasks.length > 0) {
           setTasks(chainTasks);
         }
       });
@@ -118,15 +122,15 @@ const Index = () => {
               <button
                 onClick={async () => {
                   const { getChainGigs } = await import("@/lib/contract");
-                  toast.info("Refreshing chain data...");
-                  const chainTasks = await getChainGigs(true);
+                  toast.info("Syncing with Stellar...", { icon: "🛸" });
+                  const chainTasks = await getChainGigs(true); // Force refresh
                   if (chainTasks.length > 0) setTasks(chainTasks);
-                  toast.success("Feed Updated");
+                  toast.success("Ready & Updated");
                 }}
-                className="px-3 py-1.5 rounded-md text-xs font-mono bg-accent text-accent-foreground hover:bg-accent/80 transition-colors"
-                title="Force Refresh Data"
+                className="p-2 rounded-full bg-secondary hover:bg-muted text-muted-foreground transition-all hover:rotate-180"
+                title="Force Sync with Blockchain"
               >
-                Refresh 🔄
+                <RefreshCw className="w-4 h-4" />
               </button>
               <Filter className="w-4 h-4 text-muted-foreground shrink-0" />
               <button

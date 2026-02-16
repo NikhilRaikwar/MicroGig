@@ -1,4 +1,6 @@
-# MicroGig 🌌 | Stellar Journey to Mastery - Levels 1, 2 & 3
+# MicroGig 🌌 | Stellar Journey to Mastery - Levels 1, 2, 3 & 4
+
+![MicroGig CI](https://github.com/NikhilRaikwar/MicroGig/actions/workflows/ci.yml/badge.svg)
 
 **MicroGig** has evolved into a full-stack dApp! For Level 2, we moved the entire task registry to the Stellar Blockchain using a **Soroban Smart Contract**.
 
@@ -9,6 +11,7 @@
 | **White Belt** ⚪ | Completed | [Level 1](./docs/WHITE_BELT.md) |
 | **Yellow Belt** 🟡 | Completed | [Level 2](./docs/YELLOW_BELT.md) |
 | **Orange Belt** 🟠 | Completed | [Level 3](./docs/ORANGE_BELT.md) |
+| **Green Belt** 💚 | Completed | [Level 4](./docs/GREEN_BELT.md) |
 
 ---
 

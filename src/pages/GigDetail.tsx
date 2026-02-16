@@ -42,9 +42,9 @@ const GigDetail = () => {
         load();
     }, [id]);
 
-    const refreshTask = async () => {
+    const refreshTask = async (force = false) => {
         setLoading(true);
-        const gigs = await getChainGigs();
+        const gigs = await getChainGigs(force);
         const found = gigs.find((g: any) => g.id === id);
         if (found) setTask(found);
         setLoading(false);
@@ -59,7 +59,8 @@ const GigDetail = () => {
             await submitWorkOnChain(task!.id, publicKey, submissionLink);
             toast.success("Work Submitted! 🚀");
             setSubmissionLink("");
-            await refreshTask();
+            sessionStorage.removeItem("microgig_chain_gigs"); // Clear Home Cache
+            await refreshTask(true);
         } catch (e: any) {
             toast.error("Submission failed: " + e.message);
         } finally {
@@ -81,11 +82,11 @@ const GigDetail = () => {
 
             toast.success("Payment Sent! Step 2: Confirming on Chain...");
 
-            // Pass the Payment Hash to the Contract!
             await pickWinnerOnChain(task!.id, worker, publicKey, payResult.hash);
 
             toast.success("Gig Closed & Receipt Stored! 👑");
-            await refreshTask();
+            sessionStorage.removeItem("microgig_chain_gigs"); // Clear Home Cache
+            await refreshTask(true);
         } catch (e: any) {
             toast.error("Process failed: " + e.message);
         } finally {

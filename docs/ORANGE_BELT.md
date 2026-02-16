@@ -31,10 +31,11 @@ Level 3 focuses on creating a production-ready, high-quality mini-dApp. We trans
 
 
 ### 2. Video Demo (1 Minute)
-Watch the full end-to-end functionality of MicroGig:
-[![MicroGig Demo](https://img.youtube.com/vi/3kPygvjFNS0/0.jpg)](https://youtu.be/3kPygvjFNS0)
+Watch the full end-to-end functionality of MicroGig, from wallet connection to on-chain payout:
 
-*Watch on YouTube: [https://youtu.be/3kPygvjFNS0](https://youtu.be/3kPygvjFNS0)*
+[![MicroGig Demo](https://img.youtube.com/vi/3kPygvjFNS0/maxresdefault.jpg)](https://youtu.be/3kPygvjFNS0)
+
+📺 **Watch on YouTube:** [https://youtu.be/3kPygvjFNS0](https://youtu.be/3kPygvjFNS0)
 
 ## Transaction Hash for Submission
 A recent `pick_winner` transaction showcasing the fully implemented logic:
