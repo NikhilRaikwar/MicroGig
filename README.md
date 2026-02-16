@@ -46,6 +46,16 @@
 
 ---
 
+## 💚 Level 4 (Green Belt) Highlights
+
+- [x] **Production Ready**: Full CI/CD pipeline integrated via GitHub Actions.
+- [x] **Mobile First**: 100% responsive design for all device sizes.
+- [x] **Event Streaming**: Core support for Soroban real-time event tracking.
+- [x] **Error Tracking**: Advanced RPC error diagnostics for production debugging.
+- [x] **Persistence**: Automatic wallet session management across refreshes.
+
+---
+
 ## 🛠️ Project Structure
 - `src/lib/contract.ts`: Contract logic and typing.
 - `src/pages/GigDetail.tsx`: UI for viewing tasks and selecting winners.

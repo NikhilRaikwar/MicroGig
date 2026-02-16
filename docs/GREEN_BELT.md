@@ -39,6 +39,7 @@ Level 4 represents the transition from a functional dApp to a **production-ready
 The application now supports real-time event streaming for higher-level transaction tracking.
 
 ## 🛠️ Verification Hash
-Check out any recent transaction on our CI-verified production build.
+Verified `pick_winner` interaction on Soroban:
+`250ee016ae2431ded5a00fe50507b9903bd392eaef3d7c7f2467074dd04f3f7a`
 
 This completes the 💚 Green Belt requirements. 🏆
