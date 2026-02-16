@@ -32,7 +32,8 @@ Level 4 represents the transition from a functional dApp to a **production-ready
 
 ### 2. Mobile Responsive View
 <!-- Screenshot of the app running on a mobile emulator -->
-<img width="375" alt="Mobile View" src="" />
+<img width="494" height="1679" alt="screencapture-microgig-vercel-app-2026-02-17-00_25_26" src="https://github.com/user-attachments/assets/6c1f5511-49ad-4735-b4e0-fa714a857f82" />
+
 
 ### 3. Contract Interactions (RPC Events)
 The application now supports real-time event streaming for higher-level transaction tracking.
