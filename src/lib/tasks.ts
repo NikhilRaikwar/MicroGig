@@ -2,33 +2,51 @@ export interface Task {
   id: string;
   title: string;
   description: string;
-  category: "design" | "translation" | "testing" | "writing" | "development" | "other";
-  reward: number; // in XLM
+  category: string;
+  reward: number;
   posterAddress: string;
   workerAddress?: string;
-  deadline?: string;
-  status: "open" | "in_progress" | "completed" | "paid";
+  deadline?: number; // Should be number (timestamp) or check usage
+  status: "open" | "assigned" | "completed";
   createdAt: string;
-  txHash?: string;
-  submissionText?: string;
+  transactionHash?: string;
+  submissions?: { worker: string; link: string }[];
 }
 
 const STORAGE_KEY = "microgig_tasks";
 
 export const loadTasks = (): Task[] => {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
+  const raw = localStorage.getItem(STORAGE_KEY);
+  return raw ? JSON.parse(raw) : [];
 };
 
-export const saveTasks = (tasks: Task[]): void => {
+const saveTasks = (tasks: Task[]) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+}
+
+export const assignTask = (id: string, worker: string): Task | null => {
+  const tasks = loadTasks();
+  const idx = tasks.findIndex(t => t.id === id);
+  if (idx === -1) return null;
+
+  tasks[idx].status = "assigned";
+  tasks[idx].workerAddress = worker;
+  saveTasks(tasks);
+  return tasks[idx];
 };
 
-export const addTask = (task: Omit<Task, "id" | "createdAt" | "status">): Task => {
+export const completeTask = (id: string, txHash: string): Task | null => {
+  const tasks = loadTasks();
+  const idx = tasks.findIndex(t => t.id === id);
+  if (idx === -1) return null;
+
+  tasks[idx].status = "completed";
+  tasks[idx].transactionHash = txHash;
+  saveTasks(tasks);
+  return tasks[idx];
+};
+
+export const addTask = (task: any): Task => {
   const tasks = loadTasks();
   const newTask: Task = {
     ...task,
@@ -39,15 +57,6 @@ export const addTask = (task: Omit<Task, "id" | "createdAt" | "status">): Task =
   tasks.unshift(newTask);
   saveTasks(tasks);
   return newTask;
-};
-
-export const updateTask = (id: string, updates: Partial<Task>): Task | null => {
-  const tasks = loadTasks();
-  const index = tasks.findIndex((t) => t.id === id);
-  if (index === -1) return null;
-  tasks[index] = { ...tasks[index], ...updates };
-  saveTasks(tasks);
-  return tasks[index];
 };
 
 export const CATEGORIES = [

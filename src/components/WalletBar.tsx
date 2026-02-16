@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect } from "react";
-import { connectWallet, fetchBalance, isFreighterInstalled, truncateAddress, fundWithFriendbot } from "@/lib/stellar";
+import { useState, useCallback } from "react";
+import { connectWallet, disconnectWallet, truncateAddress, fundWithFriendbot } from "@/lib/stellar";
 import { Wallet, LogOut, Copy, ExternalLink, Coins } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -28,7 +28,8 @@ const WalletBar = ({ publicKey, balance, onConnect, onDisconnect, onRefreshBalan
     }
   }, [onConnect]);
 
-  const handleDisconnect = useCallback(() => {
+  const handleDisconnect = useCallback(async () => {
+    await disconnectWallet();
     onDisconnect();
     toast.info("Wallet disconnected");
   }, [onDisconnect]);
@@ -42,7 +43,13 @@ const WalletBar = ({ publicKey, balance, onConnect, onDisconnect, onRefreshBalan
 
   const handleFund = async () => {
     if (publicKey) {
-      await fundWithFriendbot(publicKey);
+      toast.info("Funding wallet...", { description: "Requesting XLM from Friendbot" });
+      const result = await fundWithFriendbot(publicKey);
+      if (result.status === "already_funded") {
+        toast.info("Wallet already funded");
+      } else {
+        toast.success("Wallet Funded!", { description: "10,000 Testnet XLM received." });
+      }
       onRefreshBalance();
     }
   };
@@ -62,7 +69,7 @@ const WalletBar = ({ publicKey, balance, onConnect, onDisconnect, onRefreshBalan
             <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary border border-border">
               <Coins className="w-3.5 h-3.5 text-accent" />
               <span className="font-mono text-sm text-accent font-semibold">
-                {balance !== null ? `${balance} XLM` : "..."}
+                {balance ? `${balance} XLM` : "..."}
               </span>
             </div>
 

@@ -15,7 +15,19 @@ const Index = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
+    // Load local for immediate feedback
     setTasks(loadTasks());
+
+    // Attempt to load from chain
+    import("@/lib/contract").then(({ getChainGigs }) => {
+      getChainGigs().then(chainTasks => {
+        console.log("Chain Tasks Loaded:", chainTasks);
+        if (chainTasks.length > 0) {
+          // Merge with local tasks or replace. For this demo, let's prioritize chain.
+          setTasks(chainTasks);
+        }
+      });
+    });
   }, []);
 
   const refreshBalance = useCallback(async () => {

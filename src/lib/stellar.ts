@@ -1,11 +1,10 @@
 import { toast } from "sonner";
-import {
-  isConnected,
-  setAllowed,
-  requestAccess,
-  getPublicKey,
-  signTransaction,
-} from "@stellar/freighter-api";
+import { kit } from "./stellar-wallets-kit";
+import { Horizon, TransactionBuilder, Networks, Operation, Asset } from "@stellar/stellar-sdk";
+
+// Constants
+const HORIZON_URL = "https://horizon-testnet.stellar.org";
+const server = new Horizon.Server(HORIZON_URL);
 
 // Types
 export interface StellarWallet {
@@ -13,41 +12,23 @@ export interface StellarWallet {
   isConnected: boolean;
 }
 
-// Check if Freighter extension is installed
-export const isFreighterInstalled = async (): Promise<boolean> => {
-  try {
-    const connected = await isConnected();
-    return !!connected;
-  } catch {
-    return false;
-  }
+// Check if wallet is installed
+export const isWalletInstalled = async (): Promise<boolean> => {
+  return true;
 };
 
-// Connect wallet via Freighter
+// Connect wallet via Kit
 export const connectWallet = async (): Promise<string | null> => {
   try {
-    const connected = await isConnected();
-    if (!connected) {
-      toast.error("Freighter not found", {
-        description: "Please install the Freighter wallet extension from freighter.app",
-      });
-      window.open("https://www.freighter.app/", "_blank");
-      return null;
-    }
+    await kit.openModal({
+      modalTitle: "Connect to MicroGig",
+      onWalletSelected: async (option) => {
+        kit.setWallet(option.id);
+      }
+    });
 
-    await setAllowed();
-
-    // Try to get address using getAddress (newer) first, then fallback to getPublicKey
-    let address = "";
-    try {
-      // @ts-ignore
-      const result = await import("@stellar/freighter-api").then(m => m.getAddress());
-      address = result.address;
-    } catch (e) {
-      console.warn("getAddress failed, falling back to getPublicKey", e);
-      // @ts-ignore
-      address = await getPublicKey();
-    }
+    // @ts-ignore
+    const { address } = await kit.getAddress();
 
     if (address) {
       toast.success("Wallet connected!", {
@@ -55,38 +36,19 @@ export const connectWallet = async (): Promise<string | null> => {
       });
       return address;
     }
-
-    toast.error("Failed to get wallet address");
     return null;
-  } catch (error: any) {
-    console.error("Wallet connect error:", error);
-    if (error?.message?.includes("User declined")) {
-      toast.error("Connection declined by user");
-    } else {
-      toast.error("Failed to connect wallet", {
-        description: error?.message || "Unknown error",
-      });
-    }
+  } catch (error) {
+    console.error("Connection error:", error);
+    toast.error("Failed to connect wallet");
     return null;
   }
 };
 
-// Fetch XLM balance
+// Fetch XLM Balance
 export const fetchBalance = async (publicKey: string): Promise<string> => {
   try {
-    const response = await fetch(
-      `https://horizon-testnet.stellar.org/accounts/${publicKey}`
-    );
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        return "0";
-      }
-      throw new Error("Failed to fetch account");
-    }
-
-    const data = await response.json();
-    const nativeBalance = data.balances.find(
+    const account = await server.loadAccount(publicKey);
+    const nativeBalance = account.balances.find(
       (b: any) => b.asset_type === "native"
     );
     return nativeBalance ? parseFloat(nativeBalance.balance).toFixed(7) : "0";
@@ -96,102 +58,99 @@ export const fetchBalance = async (publicKey: string): Promise<string> => {
   }
 };
 
-// Send XLM payment
-export const sendPayment = async (
-  destinationAddress: string,
-  amount: string,
-  senderPublicKey: string
-): Promise<{ success: boolean; hash?: string; error?: string }> => {
+// Sign Transaction (Wrapper for Kit)
+export const signTransaction = async (xdr: string): Promise<string> => {
   try {
-    // Fetch sender account
-    const accountRes = await fetch(
-      `https://horizon-testnet.stellar.org/accounts/${senderPublicKey}`
+    // @ts-ignore
+    const result: any = await kit.signTransaction(xdr);
+    console.log("Sign result raw:", result);
+
+    // Attempt to extract XDR string
+    if (typeof result === 'string') return result;
+
+    if (result.signedTxXdr) return result.signedTxXdr; // <-- Added this
+    if (result.signedXDR) return result.signedXDR;
+    if (result.signedTx) return result.signedTx;
+    if (result.xdr) return result.xdr;
+    if (result.transaction) return result.transaction; // Some wallets return this
+
+    // If we can't find it, throw error to avoid cryptic sdk errors
+    throw new Error(`Could not find signed XDR in wallet response: ${JSON.stringify(result)}`);
+
+  } catch (error) {
+    console.error("Signing error:", error);
+    throw error;
+  }
+};
+
+// Disconnect Wallet
+export const disconnectWallet = async () => {
+  // @ts-ignore
+  if (kit.disconnect) {
+    // @ts-ignore
+    await kit.disconnect();
+  } else {
+    // Fallback if disconnect method varies
+    // @ts-ignore
+    kit.setWallet(null);
+  }
+};
+
+// Fund with Friendbot
+export const fundWithFriendbot = async (publicKey: string) => {
+  try {
+    const response = await fetch(
+      `https://friendbot.stellar.org?addr=${publicKey}`
     );
-    if (!accountRes.ok) {
-      return { success: false, error: "Sender account not found. Fund via Friendbot first." };
-    }
-    const accountData = await accountRes.json();
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    // Friendbot returns 400 if account exists, which is fine
+    console.warn("Friendbot info:", error);
+    return { status: "already_funded" };
+  }
+};
 
-    // Check balance
-    const native = accountData.balances.find((b: any) => b.asset_type === "native");
-    if (!native || parseFloat(native.balance) < parseFloat(amount) + 1) {
-      return { success: false, error: "Insufficient XLM balance (need extra for fees)" };
-    }
+// Truncate Address
+export const truncateAddress = (address: string) => {
+  if (!address) return "";
+  return `${address.slice(0, 4)}...${address.slice(-4)}`;
+};
 
-    // Build transaction using Stellar SDK
-    const { TransactionBuilder, Networks, Operation, Asset } = await import("@stellar/stellar-sdk");
-    const StellarSdk = await import("@stellar/stellar-sdk");
+// Send Payment
+export const sendPayment = async (
+  to: string,
+  amount: string
+) => {
+  try {
+    // @ts-ignore
+    const { address: from } = await kit.getAddress();
+    if (!from) throw new Error("Wallet not connected");
 
-    const server = new StellarSdk.Horizon.Server("https://horizon-testnet.stellar.org");
-    const account = await server.loadAccount(senderPublicKey);
+    const account = await server.loadAccount(from);
 
-    const transaction = new TransactionBuilder(account, {
+    const tx = new TransactionBuilder(account, {
       fee: "100",
       networkPassphrase: Networks.TESTNET,
     })
       .addOperation(
         Operation.payment({
-          destination: destinationAddress,
+          destination: to,
           asset: Asset.native(),
-          amount: parseFloat(amount).toFixed(7),
+          amount: amount,
         })
       )
-      .setTimeout(60)
+      .setTimeout(30)
       .build();
 
-    const xdr = transaction.toXDR();
+    const signedXDR = await signTransaction(tx.toXDR());
 
-    // Sign with Freighter
-    const signedResponse = await signTransaction(xdr, {
-      networkPassphrase: Networks.TESTNET,
-    });
+    // @ts-ignore
+    const result = await server.submitTransaction(TransactionBuilder.fromXDR(signedXDR, Networks.TESTNET));
 
-    const signedXdr =
-      typeof signedResponse === "string"
-        ? signedResponse
-        : (signedResponse as any)?.signedTxXdr || (signedResponse as any)?.xdr;
-
-    if (!signedXdr) {
-      return { success: false, error: "Transaction signing failed or was rejected" };
-    }
-
-    // Submit
-    const tx = TransactionBuilder.fromXDR(signedXdr, Networks.TESTNET);
-    const result = await server.submitTransaction(tx as any);
-
-    return { success: true, hash: (result as any).hash };
-  } catch (error: any) {
-    console.error("Payment error:", error);
-    if (error?.message?.includes("User declined") || error?.message?.includes("rejected")) {
-      return { success: false, error: "Transaction rejected by user" };
-    }
-    return {
-      success: false,
-      error:
-        error?.response?.data?.extras?.result_codes?.operations?.join(", ") ||
-        error?.message ||
-        "Transaction failed",
-    };
+    return { success: true, hash: result.hash };
+  } catch (error) {
+    console.error("Payment Error:", error);
+    return { success: false, error };
   }
-};
-
-// Fund account via Friendbot (testnet only)
-export const fundWithFriendbot = async (publicKey: string): Promise<boolean> => {
-  try {
-    const response = await fetch(
-      `https://friendbot.stellar.org?addr=${encodeURIComponent(publicKey)}`
-    );
-    if (response.ok) {
-      toast.success("Account funded with testnet XLM!");
-      return true;
-    }
-    return false;
-  } catch {
-    return false;
-  }
-};
-
-// Truncate address for display
-export const truncateAddress = (address: string, chars = 4): string => {
-  return `${address.slice(0, chars + 2)}...${address.slice(-chars)}`;
 };

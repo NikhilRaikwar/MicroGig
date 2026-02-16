@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Task, CATEGORIES, updateTask } from "@/lib/tasks";
-import { truncateAddress, sendPayment } from "@/lib/stellar";
-import { Clock, Coins, ExternalLink, User, CheckCircle, Loader2, Send, ShieldCheck, MessageSquare } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Task, assignTask, completeTask } from "@/lib/tasks";
+import { formatDistanceToNow } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
+import { Clock, Tag, User, Briefcase, CheckCircle2, ArrowRight, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
-import TxResultDialog, { TxResult } from "./TxResultDialog";
+import { toast } from "sonner";
+import { TxResultDialog } from "./TxResultDialog";
 
 interface TaskCardProps {
   task: Task;
@@ -17,90 +17,76 @@ interface TaskCardProps {
 }
 
 const TaskCard = ({ task, publicKey, onUpdate, index, onPaymentSuccess }: TaskCardProps) => {
-  const [loading, setLoading] = useState(false);
-  const [submission, setSubmission] = useState("");
-  const [txResult, setTxResult] = useState<TxResult | null>(null);
+  const navigate = useNavigate();
+  const [processing, setProcessing] = useState(false);
   const [showResult, setShowResult] = useState(false);
+  const [txResult, setTxResult] = useState<any>(null);
 
-  const categoryInfo = CATEGORIES.find((c) => c.value === task.category);
-  const isOwnTask = publicKey === task.posterAddress;
-  const isWorker = publicKey === task.workerAddress;
+  const isCreator = publicKey === task.posterAddress;
+  const isAssignedToMe = publicKey === task.workerAddress;
+  const isDeadlinePassed = task.deadline ? Date.now() > task.deadline : false;
 
-  // Status check for UI
-  const canClaim = publicKey && !isOwnTask && task.status === "open";
-  const canSubmit = publicKey && isWorker && task.status === "in_progress";
-  const canPay = isOwnTask && task.status === "completed";
-
-  const handleClaim = () => {
-    if (!publicKey) return;
-    const updated = updateTask(task.id, {
-      status: "in_progress",
-      workerAddress: publicKey,
-    });
-    if (updated) {
-      onUpdate(updated);
-      toast.success("Task claimed! Now complete the work.");
-    }
-  };
-
-  const handleSubmitWork = () => {
-    if (!submission) {
-      toast.error("Please provide a submission note/link");
+  const handleClaim = async () => {
+    if (!publicKey) {
+      toast.error("Please connect your wallet first");
       return;
     }
-    const updated = updateTask(task.id, {
-      status: "completed",
-      submissionText: submission,
-    });
-    if (updated) {
-      onUpdate(updated);
-      toast.success("Work submitted! Awaiting payment from creator.");
+
+    setProcessing(true);
+    try {
+      const updated = assignTask(task.id, publicKey);
+      if (updated) {
+        onUpdate(updated);
+        toast.success("Task claimed successfully!");
+      }
+    } catch (error) {
+      toast.error("Failed to claim task");
+    } finally {
+      setProcessing(false);
     }
   };
 
   const handlePay = async () => {
     if (!publicKey || !task.workerAddress) return;
 
-    setLoading(true);
+    setProcessing(true);
     try {
-      // destination is now the real worker address
-      const result = await sendPayment(task.workerAddress, task.reward.toString(), publicKey);
+      const { sendPayment } = await import("@/lib/stellar");
+      toast.info("Processing payment...", { description: "Please sign in your wallet" });
 
-      if (result.success && result.hash) {
-        const updated = updateTask(task.id, {
-          status: "paid",
-          txHash: result.hash,
-        });
-        if (updated) onUpdate(updated);
+      const result = await sendPayment(task.workerAddress, task.reward.toString());
 
-        setTxResult({
-          success: true,
-          hash: result.hash,
-          amount: task.reward.toString(),
-          destination: task.workerAddress,
-        });
-        if (onPaymentSuccess) onPaymentSuccess();
-      } else {
-        setTxResult({
-          success: false,
-          error: result.error || "Transaction failed",
-          amount: task.reward.toString(),
-          destination: task.workerAddress,
-        });
+      if (result) {
+        const updated = completeTask(task.id, result.hash); // Store hash
+        if (updated) {
+          onUpdate(updated);
+          if (onPaymentSuccess) onPaymentSuccess();
+          setTxResult(result);
+          setShowResult(true);
+          toast.success("Payment Successful! 👑", { description: "Worker paid and verified on-chain." });
+        }
       }
-      setShowResult(true);
-    } catch (e: any) {
-      toast.error(e.message);
+    } catch (error) {
+      console.error(error);
+      toast.error("Payment failed");
     } finally {
-      setLoading(false);
+      setProcessing(false);
     }
   };
 
-  const statusColors: Record<Task["status"], string> = {
-    open: "bg-blue-500/10 text-blue-400 border-blue-500/30",
-    in_progress: "bg-amber-500/10 text-amber-400 border-amber-500/30",
-    completed: "bg-indigo-500/10 text-indigo-400 border-indigo-500/30",
-    paid: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
+  const statusColor =
+    task.status === "open"
+      ? "text-green-500 bg-green-500/10 border-green-500/20"
+      : task.status === "assigned"
+        ? "text-blue-500 bg-blue-500/10 border-blue-500/20"
+        : "text-purple-500 bg-purple-500/10 border-purple-500/20";
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    // If identifying a click on a button or link, don't navigate
+    if ((e.target as HTMLElement).closest('button') || (e.target as HTMLElement).closest('a')) {
+      return;
+    }
+    navigate(`/gig/${task.id}`);
   };
 
   return (
@@ -108,120 +94,105 @@ const TaskCard = ({ task, publicKey, onUpdate, index, onPaymentSuccess }: TaskCa
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: index * 0.05, duration: 0.3 }}
-        className={`group rounded-2xl border bg-slate-900/40 p-6 transition-all duration-300 backdrop-blur-sm ${task.status === "paid" ? "border-emerald-500/20" : "border-slate-800 hover:border-slate-700 hover:glow-primary"
-          }`}
+        transition={{ duration: 0.3, delay: index * 0.1 }}
+        onClick={handleCardClick}
+        className="group relative bg-card border border-border rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden cursor-pointer"
       >
-        {/* Header */}
-        <div className="flex items-start justify-between gap-3 mb-4">
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-sm">{categoryInfo?.emoji}</span>
-              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.2em]">
-                {categoryInfo?.label}
-              </span>
+        <div className="p-5">
+          <div className="flex justify-between items-start mb-4">
+            <div className={`px-2.5 py-1 rounded-md text-xs font-mono border ${statusColor}`}>
+              {task.status.toUpperCase()}
             </div>
-            <h3 className="font-mono font-bold text-white text-lg truncate leading-tight">{task.title}</h3>
-          </div>
-          <span className={`px-2.5 py-1 text-[10px] font-bold font-mono rounded-lg border uppercase tracking-wider ${statusColors[task.status]}`}>
-            {task.status.replace("_", " ")}
-          </span>
-        </div>
-
-        {/* Description */}
-        <p className="text-sm text-slate-400 mb-6 line-clamp-2 leading-relaxed">{task.description}</p>
-
-        {/* Meta */}
-        <div className="flex flex-wrap items-center gap-4 mb-6 pt-6 border-t border-slate-800/50">
-          <div className="flex items-center gap-2 text-xs font-mono text-slate-500 bg-slate-950/50 px-2.5 py-1.5 rounded-lg border border-slate-800/30">
-            <User className="w-3 h-3 text-indigo-400" />
-            <span>{truncateAddress(task.posterAddress)}</span>
-          </div>
-          <div className="flex items-center gap-2 text-xs font-mono font-bold text-indigo-400 bg-indigo-500/5 px-2.5 py-1.5 rounded-lg border border-indigo-500/20">
-            <Coins className="w-3 h-3" />
-            <span>{task.reward} XLM</span>
-          </div>
-        </div>
-
-        {/* Dynamic Content based on State */}
-        <div className="space-y-4">
-
-          {/* Worker Submitting */}
-          {canSubmit && (
-            <div className="space-y-3 p-4 bg-slate-950/50 rounded-xl border border-slate-800">
-              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-1">Submission Note</label>
-              <Input
-                placeholder="Link to work or summary..."
-                value={submission}
-                onChange={(e) => setSubmission(e.target.value)}
-                className="bg-slate-900 border-slate-700 h-10 text-sm focus:ring-1 focus:ring-amber-500"
-              />
-              <Button
-                onClick={handleSubmitWork}
-                size="sm"
-                className="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold"
-              >
-                <Send className="w-3.5 h-3.5 mr-2" /> Submit Work
-              </Button>
+            <div className="flex items-center text-xs text-muted-foreground font-mono">
+              <Clock className="w-3.5 h-3.5 mr-1" />
+              {formatDistanceToNow(new Date(task.createdAt), { addSuffix: true })}
             </div>
-          )}
+          </div>
 
-          {/* Submission Preview for Poster */}
-          {task.submissionText && (
-            <div className="p-4 bg-indigo-500/5 border border-indigo-500/20 rounded-xl">
-              <div className="flex items-center gap-2 mb-2 text-[10px] font-bold text-indigo-400 uppercase tracking-widest">
-                <MessageSquare className="w-3 h-3" /> Worker Submission
+          <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
+            {task.title}
+          </h3>
+          <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
+            {task.description}
+          </p>
+
+          <div className="flex flex-wrap gap-2 mb-4">
+            <div className="inline-flex items-center text-xs text-muted-foreground bg-secondary px-2 py-1 rounded-md">
+              <Tag className="w-3 h-3 mr-1" />
+              {task.category}
+            </div>
+            <div className="inline-flex items-center text-xs text-muted-foreground bg-secondary px-2 py-1 rounded-md" title={task.posterAddress}>
+              <User className="w-3 h-3 mr-1" />
+              Creator: {task.posterAddress.slice(0, 4)}...{task.posterAddress.slice(-4)}
+            </div>
+            {task.status === "completed" && (
+              <div className="inline-flex items-center text-xs text-purple-600 bg-purple-100 px-2 py-1 rounded-md border border-purple-200">
+                Winner 👑
               </div>
-              <p className="text-sm text-slate-300 italic">"{task.submissionText}"</p>
-              {task.workerAddress && (
-                <p className="text-[10px] text-slate-500 mt-2 font-mono">From: {truncateAddress(task.workerAddress)}</p>
-              )}
-            </div>
-          )}
+            )}
+          </div>
+        </div>
 
-          {/* Main Action Buttons */}
-          {canClaim && (
-            <Button
-              onClick={handleClaim}
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold h-11 rounded-xl shadow-lg shadow-blue-500/10 transition-all active:scale-95"
-            >
-              Claim Task
-            </Button>
-          )}
+        {/* Action Area */}
+        <div className="p-4 bg-secondary/30 border-t border-border flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="text-2xl font-bold text-accent">{task.reward} <span className="text-sm font-normal text-muted-foreground">XLM</span></div>
+          </div>
 
-          {canPay && (
-            <Button
-              onClick={handlePay}
-              disabled={loading}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold h-11 rounded-xl shadow-lg shadow-indigo-500/20 transition-all active:scale-95"
-            >
-              {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <ShieldCheck className="w-4 h-4 mr-2" />}
-              Pay Worker {task.reward} XLM
-            </Button>
-          )}
-
-          {task.status === "paid" && task.txHash && (
-            <a
-              href={`https://stellar.expert/explorer/testnet/tx/${task.txHash}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 py-3 w-full rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-emerald-400 font-mono text-xs hover:bg-emerald-500/10 transition-colors"
-            >
-              <CheckCircle className="w-3.5 h-3.5" />
-              Paid Successfully — View Receipt
-              <ExternalLink className="w-3 h-3" />
-            </a>
-          )}
-
-          {isOwnTask && task.status === "open" && (
-            <p className="text-center text-[10px] text-slate-500 font-medium uppercase tracking-widest italic pt-2">
-              Awaiting worker to claim...
-            </p>
+          {isCreator ? (
+            task.status === "open" ? (
+              <span className="text-xs font-mono text-muted-foreground">
+                <Link to={`/gig/${task.id}`} className="hover:underline">View Details</Link>
+              </span>
+            ) : task.status === "assigned" ? (
+              <Link to={`/gig/${task.id}`}>
+                <Button
+                  variant="default"
+                  className="bg-green-600 hover:bg-green-700 text-white gap-2"
+                >
+                  Pay Winner 👑
+                </Button>
+              </Link>
+            ) : (
+              <a
+                href={`https://stellar.expert/explorer/testnet/tx/${task.transactionHash || ""}`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-xs font-mono text-primary hover:underline flex items-center gap-1"
+              >
+                View Payment <ExternalLink className="w-3 h-3" />
+              </a>
+            )
+          ) : (
+            task.status === "open" ? (
+              isDeadlinePassed ? (
+                <Button disabled variant="secondary" className="opacity-50 cursor-not-allowed">
+                  Deadline Passed ⏰
+                </Button>
+              ) : (
+                <Link to={`/gig/${task.id}`}>
+                  <Button variant="secondary" className="hover:bg-accent hover:text-accent-foreground">
+                    View & Claim 🙋‍♂️
+                  </Button>
+                </Link>
+              )
+            ) : task.status === "assigned" && task.workerAddress === publicKey ? (
+              <Link to={`/gig/${task.id}`}>
+                <div className="text-xs font-mono text-yellow-500 animate-pulse hover:underline">Submit Work...</div>
+              </Link>
+            ) : task.status === "completed" ? (
+              <Link to={`/gig/${task.id}`} className="hover:opacity-80 transition-opacity">
+                <span className="text-xs font-mono text-green-600 flex items-center gap-1 hover:underline">
+                  Completed <CheckCircle2 className="w-3 h-3" /> (View)
+                </span>
+              </Link>
+            ) : (
+              <span className="text-xs font-mono text-muted-foreground">Closed</span>
+            )
           )}
         </div>
       </motion.div>
 
-      {/* Transaction Result Dialog */}
       <TxResultDialog
         result={txResult}
         open={showResult}

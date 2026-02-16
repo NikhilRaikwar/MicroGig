@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Plus, X } from "lucide-react";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
+import { postGigOnChain } from "@/lib/contract";
 
 interface PostTaskFormProps {
   publicKey: string | null;
@@ -24,8 +25,8 @@ const PostTaskForm = ({ publicKey, onTaskPosted }: PostTaskFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!publicKey) {
-      toast.error("Connect your wallet first");
+    if (!title.trim() || !description.trim() || !reward || !publicKey) {
+      toast.error("Please fill all fields and connect wallet.");
       return;
     }
 
@@ -35,29 +36,47 @@ const PostTaskForm = ({ publicKey, onTaskPosted }: PostTaskFormProps) => {
       return;
     }
 
-    if (!title.trim() || !description.trim()) {
-      toast.error("Fill in all required fields");
-      return;
-    }
-
     setSubmitting(true);
     try {
-      const newTask = addTask({
+      toast.info("Submitting to Blockchain...", {
+        description: "Please sign in your wallet."
+      });
+
+      // Call the blockchain function
+      const result = await postGigOnChain(title.trim(), description.trim(), rewardNum, publicKey);
+
+      console.log("Contract Result:", result);
+      toast.success("Gig Posted On-Chain! 🚀", {
+        description: "Your task is now live on the Stellar Network."
+      });
+
+      // Simulate a task object for immediate UI update
+      const newTask: Task = {
+        id: "temp-id-" + Date.now(), // Temporary ID until we re-fetch from chain
         title: title.trim(),
         description: description.trim(),
         category,
         reward: rewardNum,
         posterAddress: publicKey,
-        deadline: deadline || undefined,
-      });
+        status: "open",
+        createdAt: new Date().toISOString(),
+        deadline: deadline ? new Date(deadline).getTime() : undefined,
+      };
+
       onTaskPosted(newTask);
+
       toast.success("Task posted!", { description: `${rewardNum} XLM reward` });
+
+      // Reset Form
       setTitle("");
       setDescription("");
       setReward("");
       setDeadline("");
       setCategory("other");
       setIsOpen(false);
+    } catch (err: any) {
+      console.error(err);
+      toast.error("Failed to post on-chain", { description: err.message });
     } finally {
       setSubmitting(false);
     }
