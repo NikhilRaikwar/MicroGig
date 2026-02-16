@@ -66,9 +66,9 @@ const WalletBar = ({ publicKey, balance, onConnect, onDisconnect, onRefreshBalan
             className="flex items-center gap-2"
           >
             {/* Balance */}
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary border border-border">
-              <Coins className="w-3.5 h-3.5 text-accent" />
-              <span className="font-mono text-sm text-accent font-semibold">
+            <div className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-lg bg-secondary border border-border">
+              <Coins className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-accent" />
+              <span className="font-mono text-[10px] sm:text-sm text-accent font-semibold">
                 {balance ? `${balance} XLM` : "..."}
               </span>
             </div>
