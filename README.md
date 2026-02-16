@@ -1,4 +1,4 @@
-# MicroGig 🌌 | Stellar Journey to Mastery - Level 1 & 2
+# MicroGig 🌌 | Stellar Journey to Mastery - Levels 1, 2 & 3
 
 **MicroGig** has evolved into a full-stack dApp! For Level 2, we moved the entire task registry to the Stellar Blockchain using a **Soroban Smart Contract**.
 
@@ -6,8 +6,9 @@
 
 | Badge | Status | Documentation |
 | :--- | :--- | :--- |
-| **White Belt** ⚪ | Completed | [Level 1 Documentation](./docs/WHITE_BELT.md) |
-| **Yellow Belt** 🟡 | Completed | [Level 2 Documentation](./docs/YELLOW_BELT.md) |
+| **White Belt** ⚪ | Completed | [Level 1](./docs/WHITE_BELT.md) |
+| **Yellow Belt** 🟡 | Completed | [Level 2](./docs/YELLOW_BELT.md) |
+| **Orange Belt** 🟠 | Completed | [Level 3](./docs/ORANGE_BELT.md) |
 
 ---
 
@@ -29,6 +30,18 @@
     - **Winner Selection**: Creator picks the winner on-chain.
     - **Receipt Storage**: Payment transaction hash is stored permanently on-chain.
 - [x] **Contract ID**: `CCIMNZ2TTDBRAONQE56XAQUGCNM7IBKNWKDTK42DYRMQUABJ45IOOSQV`
+
+---
+
+## 🟠 Level 3 (Orange Belt) Highlights
+
+- [x] **Performance**: Implemented basic caching to optimize RPC calls.
+- [x] **Quality**: 100% test coverage for core utility functions (Vitest).
+- [x] **Transparency**: Automated transaction tracking and verifiable receipts.
+- [x] **Demo Video**: [Full Walkthrough (1min)](https://youtu.be/3kPygvjFNS0)
+- [x] **Verified Tx**: [pick_winner (250ee01...)](https://stellar.expert/explorer/testnet/tx/250ee016ae2431ded5a00fe50507b9903bd392eaef3d7c7f2467074dd04f3f7a)
+
+---
 
 ## 🛠️ Project Structure
 - `src/lib/contract.ts`: Contract logic and typing.

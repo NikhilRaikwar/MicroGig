@@ -6,6 +6,7 @@ import TaskCard from "@/components/TaskCard";
 import { motion } from "framer-motion";
 import { Search, Filter, Zap, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 const Index = () => {
   const [publicKey, setPublicKey] = useState<string | null>(null);
@@ -114,6 +115,19 @@ const Index = () => {
               />
             </div>
             <div className="flex items-center gap-2 overflow-x-auto pb-1">
+              <button
+                onClick={async () => {
+                  const { getChainGigs } = await import("@/lib/contract");
+                  toast.info("Refreshing chain data...");
+                  const chainTasks = await getChainGigs(true);
+                  if (chainTasks.length > 0) setTasks(chainTasks);
+                  toast.success("Feed Updated");
+                }}
+                className="px-3 py-1.5 rounded-md text-xs font-mono bg-accent text-accent-foreground hover:bg-accent/80 transition-colors"
+                title="Force Refresh Data"
+              >
+                Refresh 🔄
+              </button>
               <Filter className="w-4 h-4 text-muted-foreground shrink-0" />
               <button
                 onClick={() => setFilter("all")}
@@ -176,7 +190,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-border py-6 mt-16">
         <div className="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground font-mono">
-          <span>MicroGig — Stellar Journey to Mastery · Level 1</span>
+          <span>MicroGig — Stellar Journey to Mastery · Level 3</span>
           <a
             href="https://stellar.expert/explorer/testnet"
             target="_blank"

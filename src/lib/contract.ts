@@ -305,9 +305,19 @@ const decodeGig = (val: any): any => {
 
 
 
-// Fetch Gigs from Chain (Read-Only Simulation)
-export const getChainGigs = async () => {
+// Fetch Gigs from Chain (Read-Only Simulation with Caching)
+export const getChainGigs = async (forceRefresh = false) => {
+    // Basic Caching Implementation
+    const CACHE_KEY = "microgig_chain_gigs";
+    const cache = sessionStorage.getItem(CACHE_KEY);
+
+    if (cache && !forceRefresh) {
+        console.log("Returning cached gigs from session storage");
+        return JSON.parse(cache);
+    }
+
     try {
+        console.log("Fetching fresh gigs from chain...");
         const contract = new Contract(CONTRACT_ID!);
 
         // Use a random keypair just for simulation source
@@ -332,26 +342,25 @@ export const getChainGigs = async () => {
             const retval = response.result.retval;
             const rawGigs = scValToNative(retval);
 
-            // Map raw dictionary to Task interface
-            // Expected struct: { id, title, description, reward, poster, status, worker }
-            return rawGigs.map((g: any) => ({
+            const mappedResults = rawGigs.map((g: any) => ({
                 id: g.id.toString(),
-                title: g.title.toString(), // scValToNative might return Buffer/String depending on scvString
+                title: g.title.toString(),
                 description: g.description.toString(),
-                category: "other", // Contract doesn't store category yet
-                reward: Number(g.reward) / 10_000_000, // Stroops to XLM
+                category: "other",
+                reward: Number(g.reward) / 10_000_000,
                 posterAddress: g.poster,
                 workerAddress: g.worker || undefined,
-                status: g.status === 0 ? "open" : "completed", // 1 is closed/paid
-                createdAt: new Date().toISOString(), // Contract doesn't store time, assume recent
-                // Add deadline if available?
-                // New field: submissions
+                status: g.status === 0 ? "open" : "completed",
+                createdAt: new Date().toISOString(),
                 submissions: g.submissions ? g.submissions.map((s: any) => ({
                     worker: s.worker,
                     link: s.link.toString()
                 })) : [],
-                transactionHash: g.payment_hash ? g.payment_hash.toString() : undefined // Extract Hash
+                transactionHash: g.payment_hash ? g.payment_hash.toString() : undefined
             }));
+
+            sessionStorage.setItem(CACHE_KEY, JSON.stringify(mappedResults));
+            return mappedResults;
         }
 
         return [];
