@@ -20,6 +20,16 @@ const server = new rpc.Server(SERVER_URL);
 
 const BASE_FEE = "100";
 
+// Advanced Error Tracking for Production Readiness
+export const parseSorobanError = (error: any): string => {
+    const msg = error?.message || "";
+    if (msg.includes("pending")) return "Transaction is still pending on-chain.";
+    if (msg.includes("rejected")) return "Transaction was rejected by your wallet.";
+    if (msg.includes("insufficient")) return "Insufficient XLM balance for transaction or fees.";
+    if (msg.includes("HostError: Error(Contract, #")) return `Smart Contract Logic Error: ${msg.split('#')[1].trim()}`;
+    return msg || "An unknown blockchain error occurred.";
+};
+
 // Helper wrappers
 const strVal = (s: string) => xdr.ScVal.scvString(s);
 const u64Val = (n: number) => xdr.ScVal.scvU64(xdr.Uint64.fromString(n.toString()));
