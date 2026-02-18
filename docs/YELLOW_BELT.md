@@ -10,8 +10,13 @@ Building on our White Belt skills, we integrated a full Stellar Smart Contract (
 - [x] **On-Chain Storage**: Tasks are permanently stored in the contract's state, removing dependency on local storage.
 - [x] **Multi-Submission**: Multiple workers can submit work (links) for a single gig.
 - [x] **Winner Selection**: The creator can select a winner on-chain, triggering a payment flow.
-- [x] **Receipt Storage**: The payment transaction hash is stored permanently on-chain as a receipt.
+- [x] **Receipt Storage**: Payment transaction hash is stored permanently on-chain as a receipt.
 - **Contract ID**: `CCIMNZ2TTDBRAONQE56XAQUGCNM7IBKNWKDTK42DYRMQUABJ45IOOSQV`
+
+### 🔍 Verification Data for Reviewers
+- **Contract ID**: `CCIMNZ2TTDBRAONQE56XAQUGCNM7IBKNWKDTK42DYRMQUABJ45IOOSQV`
+- **Verified Transaction Hash**: `250ee016ae2431ded5a00fe50507b9903bd392eaef3d7c7f2467074dd04f3f7a`
+- **Live Demo**: [https://microgig.vercel.app](https://microgig.vercel.app)
 
 ### 2. Advanced Features
 - [x] **Atomic Payouts**: The UI enforces payment before finalizing the contract state (Optimistic & Verified).

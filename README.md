@@ -34,6 +34,14 @@
     - **Receipt Storage**: Payment transaction hash is stored permanently on-chain.
 - [x] **Contract ID**: `CCIMNZ2TTDBRAONQE56XAQUGCNM7IBKNWKDTK42DYRMQUABJ45IOOSQV`
 
+### 📸 Level 2 Proofs
+- **Multi-Wallet UI Screenshot**: [View Image](https://github.com/user-attachments/assets/50f41a0b-e238-4b8b-934e-6cb8e5883867)
+- **Verified Contract Call**: [View Tx on Stellar Expert](https://stellar.expert/explorer/testnet/tx/250ee016ae2431ded5a00fe50507b9903bd392eaef3d7c7f2467074dd04f3f7a)
+- **Error Types Handled**:
+  1. **Wallet Not Found**: Prompts installation.
+  2. **User Rejection**: Catches cancellation errors.
+  3. **RPC Failure**: Handles simulation errors gracefully.
+
 ---
 
 ## 🟠 Level 3 (Orange Belt) Highlights
