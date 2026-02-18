@@ -62,12 +62,17 @@
 - [x] **Error Tracking**: Advanced RPC error diagnostics for production debugging.
 - [x] **Persistence**: Automatic wallet session management across refreshes.
 
+### 📝 Soroban Contract
+The smart contract logic is located in `contracts/gig-registry` and follows standard Soroban project structure.
+- **Source**: [`contracts/gig-registry/src/lib.rs`](./contracts/gig-registry/src/lib.rs)
+- **Config**: [`contracts/gig-registry/Cargo.toml`](./contracts/gig-registry/Cargo.toml)
+
 ---
 
 ## 🛠️ Project Structure
 - `src/lib/contract.ts`: Contract logic and typing.
 - `src/pages/GigDetail.tsx`: UI for viewing tasks and selecting winners.
-- `contracts/gig-registry`: Rust Smart Contract Source, Tests, and Config.
+- `contracts/gig-registry`: Rust Soroban Contract Source and Configuration.
 - `docs/`: Detailed documentation for each level.
 
 ## ⚙️ Setup & Installation
