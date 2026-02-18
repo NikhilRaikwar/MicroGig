@@ -67,7 +67,7 @@
 ## 🛠️ Project Structure
 - `src/lib/contract.ts`: Contract logic and typing.
 - `src/pages/GigDetail.tsx`: UI for viewing tasks and selecting winners.
-- `contract-source/lib.rs`: Rust Source Code for the Smart Contract.
+- `contracts/gig-registry`: Rust Smart Contract Source, Tests, and Config.
 - `docs/`: Detailed documentation for each level.
 
 ## ⚙️ Setup & Installation

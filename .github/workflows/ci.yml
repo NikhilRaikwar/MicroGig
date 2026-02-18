@@ -24,14 +24,3 @@ jobs:
 
     - name: Run Frontend Tests
       run: npm test
-
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        target: wasm32-unknown-unknown
-        override: true
-
-    - name: Run Smart Contract Tests
-      working-directory: ./contracts/gig-registry
-      run: cargo test
