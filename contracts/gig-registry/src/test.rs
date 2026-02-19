@@ -7,7 +7,7 @@ fn test_gig_workflow() {
     let env = Env::default();
     env.mock_all_auths();
 
-    let contract_id = env.register_contract(None, GigContract);
+    let contract_id = env.register(GigContract, ());
     let client = GigContractClient::new(&env, &contract_id);
 
     let poster = Address::generate(&env);
@@ -58,7 +58,7 @@ fn test_multiple_submissions() {
     let env = Env::default();
     env.mock_all_auths();
 
-    let contract_id = env.register_contract(None, GigContract);
+    let contract_id = env.register(GigContract, ());
     let client = GigContractClient::new(&env, &contract_id);
 
     let poster = Address::generate(&env);
