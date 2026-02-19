@@ -10,37 +10,37 @@ jobs:
   frontend_tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20
-        cache: 'npm'
+      - uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Run Frontend Tests
-      run: npm test
+      - name: Run Frontend Tests
+        run: npm test
 
   contract_tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        override: true
+      - name: Install Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
 
-    - name: Rust Cache
-      uses: Swatinem/rust-cache@v2
-      with:
-        working-directory: contracts/gig-registry
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          # Use 'workspaces' instead of 'working-directory' for Swatinem/rust-cache
+          workspaces: "contracts/gig-registry -> target"
 
-    - name: Run Contract Tests
-      run: |
-        cd contracts/gig-registry
-        cargo test
+      - name: Run Contract Tests
+        run: |
+          cd contracts/gig-registry
+          cargo test
