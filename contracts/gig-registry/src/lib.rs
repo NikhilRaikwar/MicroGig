@@ -1,6 +1,9 @@
 #![no_std]
 use soroban_sdk::{contract, contractimpl, contracttype, symbol_short, Address, Env, String, Vec};
 
+#[cfg(test)]
+mod test;
+
 #[contracttype]
 #[derive(Clone)]
 pub struct Submission {
