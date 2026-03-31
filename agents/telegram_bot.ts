@@ -96,6 +96,21 @@ bot.command("export", async (ctx) => {
     );
 });
 
+bot.command("import", async (ctx) => {
+    const text = ctx.message.text.split(" ");
+    if (text.length !== 2) {
+        return ctx.replyWithHTML("❌ <b>Usage:</b> <code>/import YOUR_SECRET_KEY</code>\n\n<i>Example: /import S... (Never share this key!)</i>");
+    }
+    const secret = text[1];
+    try {
+        const pair = Keypair.fromSecret(secret);
+        saveUser(ctx.from.id, secret);
+        ctx.replyWithHTML(`✅ <b>Wallet Linked Successfully!</b>\n\n📥 <b>ADDR:</b> <code>${pair.publicKey()}</code>\n\nAll your future bounties will now sync with this account.`);
+    } catch (e) {
+        ctx.reply("❌ Invalid Secret Key. Please double check (Stellar secrets start with 'S').");
+    }
+});
+
 bot.command("balance", async (ctx) => {
     const user = getStellarUser(ctx.from.id);
     try {
