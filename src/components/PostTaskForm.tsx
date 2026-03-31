@@ -43,7 +43,13 @@ const PostTaskForm = ({ publicKey, onTaskPosted }: PostTaskFormProps) => {
       });
 
       // Call the blockchain function
-      const result = await postGigOnChain(title.trim(), description.trim(), rewardNum, publicKey);
+      const result = await postGigOnChain(
+        title.trim(), 
+        description.trim(), 
+        category, // PASSING CATEGORY IN V2
+        rewardNum, 
+        publicKey
+      );
 
       console.log("Contract Result:", result);
       sessionStorage.removeItem("microgig_chain_gigs"); // Clear Home Cache
