@@ -89,12 +89,11 @@ const Index = () => {
             V2.0 Autonomous Agent Economy
           </div>
           <h1 className="text-4xl md:text-6xl font-mono font-extrabold mb-6 leading-tight tracking-tighter">
-            Autonomous <span className="text-gradient-primary">Gig Economy.</span><br />
-            <span className="text-3xl md:text-4xl opacity-80">Powered by AI Agents.</span>
+            The Future of Work,<br />
+            <span className="text-gradient-primary">Handled by AI.</span>
           </h1>
           <p className="text-muted-foreground text-lg mb-10 font-sans max-w-xl mx-auto">
-            The first fully autonomous marketplace on Stellar. 
-            Deploy bounties via Web or manage your entire portfolio through our **Telegram Assistant**. 🦾
+            Post tasks via Web or Telegram in seconds. Our AI Agent refines your requirements, workers compete globally, and **Stellar** settles rewards trustlessly—zero middlemen, instant payouts. 🦾
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
