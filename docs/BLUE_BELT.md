@@ -33,8 +33,8 @@
 
 ### 📊 Feedback Documentation
 The system was tested with **5+ real testnet users** to validate the Telegram-first workflow.
-- **Google Form Responses**: [View Form Summary (Placeholder)](#)
-- **Exported Excel Data**: [Download User Sheet (Placeholder)](#)
+- **Google Form (Live)**: [MicroGig Testnet User Feedback Form](https://forms.gle/THjMJETFguVZ4EzR6)
+- **Exported Excel Data**: [View User Feedback Responses](https://docs.google.com/spreadsheets/d/1vma-q0d89ouBb64qba80F_mia4fii8YVhmGhkpUrz78/edit?usp=sharing)
 
 ### 🔄 Documented Iteration (V2.1)
 **Initial Issue**: Users found it difficult to estimate the XLM reward during one-command creation.
