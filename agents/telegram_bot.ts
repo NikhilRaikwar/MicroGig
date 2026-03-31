@@ -97,15 +97,36 @@ bot.command("export", async (ctx) => {
 });
 
 bot.command("import", async (ctx) => {
-    const text = ctx.message.text.split(" ");
+    // Security check: Don't allow secret keys in groups
+    if (ctx.chat.type !== "private") {
+        try { ctx.deleteMessage(); } catch (e) {} // Try to hide the secret
+        return ctx.reply("⚠️ **SECURITY WARNING:** Never share your secret key in groups! I've tried to delete your message. Please send `/import` to me in a PRIVATE MESSAGE only.");
+    }
+
+    const text = ctx.message.text.trim().split(/\s+/);
     if (text.length !== 2) {
         return ctx.replyWithHTML("❌ <b>Usage:</b> <code>/import YOUR_SECRET_KEY</code>\n\n<i>Example: /import S... (Never share this key!)</i>");
     }
     const secret = text[1];
     try {
         const pair = Keypair.fromSecret(secret);
+        const oldUser = getStellarUser(ctx.from.id);
+        
         saveUser(ctx.from.id, secret);
-        ctx.replyWithHTML(`✅ <b>Wallet Linked Successfully!</b>\n\n📥 <b>ADDR:</b> <code>${pair.publicKey()}</code>\n\nAll your future bounties will now sync with this account.`);
+        
+        // Fetch new balance for confirmation
+        let balance = "0";
+        try {
+            const account = await horizon.loadAccount(pair.publicKey());
+            balance = account.balances.find((b: any) => b.asset_type === "native")?.balance || "0";
+        } catch (e) {}
+
+        ctx.replyWithHTML(
+            `✅ <b>Wallet Linked Successfully!</b>\n\n` +
+            `📥 <b>ADDR:</b> <code>${pair.publicKey()}</code>\n` +
+            `💰 <b>BAL:</b> <code>${balance} XLM</code>\n\n` +
+            `<i>Future bounties will now sync with this account. Your previous bot-wallet (${oldUser.publicKey().slice(0, 6)}...) is no longer active.</i>`
+        );
     } catch (e) {
         ctx.reply("❌ Invalid Secret Key. Please double check (Stellar secrets start with 'S').");
     }
@@ -149,16 +170,23 @@ bot.command("bounties", async (ctx) => {
         const response = await server.simulateTransaction(tx);
         if (rpc.Api.isSimulationSuccess(response) && response.result) {
             const rawGigs = scValToNative(response.result.retval);
-            const openGigs = Array.isArray(rawGigs) ? rawGigs.filter((g: any) => Number(g.status) === 0) : [];
-            if (openGigs.length === 0) return ctx.reply("📭 No active bounties found.");
-            let message = "📝 **LIVE BOUNTIES ON STELLAR:**\n\n";
-            openGigs.slice(0, 10).reverse().forEach(g => {
-                message += `🔹 **#${g.id}**: ${g.title}\n💰 Reward: ${Number(g.reward) / 10_000_000} XLM\n📍 [Open Link](https://microgig.online/gig/${g.id})\n✍️ Submit: \`/submit ${g.id} [link]\`\n\n`;
+            // Latest 10 Open Bounties
+            const openGigs = Array.isArray(rawGigs) 
+                ? rawGigs.filter((g: any) => Number(g.status) === 0).reverse().slice(0, 10) 
+                : [];
+            
+            if (openGigs.length === 0) return ctx.reply("📭 No active bounties found in the registry.");
+            
+            let message = "📝 **LATEST BOUNTIES ON STELLAR:**\n\n";
+            openGigs.forEach(g => {
+                message += `🔹 **#${g.id}**: ${g.title}\n💰 Reward: ${Number(g.reward) / 10_000_000} XLM\n📍 [Open in Web Dashboard](https://microgig.vercel.app/gig/${g.id})\n✍️ Submit: \`/submit ${g.id} [YOUR_LINK]\`\n\n`;
             });
             ctx.reply(message, { parse_mode: "Markdown", link_preview_options: { is_disabled: true } });
+        } else {
+            ctx.reply("❌ Registry currently unavailable on testnet.");
         }
     } catch (e) {
-        ctx.reply("❌ Error synchronized with contract.");
+        ctx.reply("❌ Error synchronizing with the registry.");
     }
 });
 
@@ -306,9 +334,9 @@ bot.command("mybounties", async (ctx) => {
             if (myGigs.length === 0) return ctx.reply("📭 You haven't created any active bounties yet.");
             let message = "🏛️ **YOUR ACTIVE BOUNTIES:**\n\n";
             myGigs.forEach((g: any) => {
-                message += `🔸 **#${g.id}**: ${g.title}\n👥 Subs: ${g.submissions?.length || 0}\n🧐 View: \`/submissions ${g.id}\`\n\n`;
+                message += `🔸 **#${g.id}**: ${g.title}\n👥 Subs: ${g.submissions?.length || 0}\n📍 [Web Dashboard](https://microgig.vercel.app/gig/${g.id})\n🧐 View: \`/submissions ${g.id}\`\n\n`;
             });
-            ctx.reply(message, { parse_mode: "Markdown" });
+            ctx.reply(message, { parse_mode: "Markdown", link_preview_options: { is_disabled: true } });
         }
     } catch (e) {
         ctx.reply("❌ Error fetching your bounties.");
@@ -374,10 +402,10 @@ bot.on("text", async (ctx) => {
             const txCount = new TransactionBuilder(new Account(Keypair.random().publicKey(), "0"), { fee: "100", networkPassphrase: Networks.TESTNET })
                 .addOperation(contract.call("get_gigs")).setTimeout(30).build();
             const countResp = await server.simulateTransaction(txCount);
-            let nextId = "0";
+            let nextId = "1";
             if (rpc.Api.isSimulationSuccess(countResp) && countResp.result) {
                 const existing = scValToNative(countResp.result.retval);
-                nextId = existing.length.toString();
+                nextId = (existing.length + 1).toString();
             }
 
             const op = contract.call(
