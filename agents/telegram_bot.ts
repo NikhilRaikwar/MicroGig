@@ -19,8 +19,16 @@ import OpenAI from "openai";
 dotenv.config();
 
 // User Database (Simple JSON for MVP)
-const DB_PATH = "./agents/users.json";
-const loadUsers = () => fs.existsSync(DB_PATH) ? JSON.parse(fs.readFileSync(DB_PATH, "utf-8")) : {};
+const DB_PATH = fs.existsSync("./agents") ? "./agents/users.json" : "./users.json";
+
+const loadUsers = () => {
+    if (!fs.existsSync(DB_PATH)) {
+        fs.writeFileSync(DB_PATH, JSON.stringify({}, null, 2));
+        return {};
+    }
+    return JSON.parse(fs.readFileSync(DB_PATH, "utf-8"));
+};
+
 const saveUser = (id: number, secret: string) => {
     const users = loadUsers();
     users[id] = secret;
