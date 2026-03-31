@@ -12,7 +12,9 @@ import {
     xdr,
     rpc,
     scValToNative,
-    Horizon
+    Horizon,
+    Operation,
+    Asset
 } from "@stellar/stellar-sdk";
 import OpenAI from "openai";
 
@@ -291,31 +293,71 @@ bot.command("pick", async (ctx) => {
     const id = parts[1];
     const winner = parts[2];
 
-    ctx.reply(`💰 **Releasing XLM reward to ${winner.slice(0,8)}...**`);
+    ctx.reply(`🏢 **Fetching Gig Details & Preparing Payment...**`);
     try {
-        const account = await server.getAccount(user.publicKey());
-        const contract = new Contract(CONTRACT_ID);
-        const op = contract.call(
+        // Step 1: Fetch Reward Amount from Registry
+        const simAcc = new Account(Keypair.random().publicKey(), "0");
+        const contract = new Contract(CONTRACT_ID!);
+        const simTx = new TransactionBuilder(simAcc, { fee: "100", networkPassphrase: Networks.TESTNET })
+            .addOperation(contract.call("get_gigs")).setTimeout(30).build();
+        const response = await server.simulateTransaction(simTx);
+        
+        let reward = "0";
+        if (rpc.Api.isSimulationSuccess(response) && response.result) {
+            const rawGigs = scValToNative(response.result.retval);
+            const gig = Array.isArray(rawGigs) ? rawGigs.find((g: any) => g.id.toString() === id) : null;
+            if (!gig) return ctx.reply("❌ Gig not found in the registry.");
+            if (gig.poster !== user.publicKey()) return ctx.reply("🔒 Authorization Error: You are not the poster of this gig.");
+            reward = (Number(gig.reward) / 10_000_000).toFixed(7);
+        } else {
+            return ctx.reply("❌ Registry sync failed. Try again.");
+        }
+
+        ctx.reply(`💸 **Sending ${reward} XLM to ${winner.slice(0,8)}...**`);
+        
+        // Step 2: Send Real XLM Payment
+        const horizonAcc = await horizon.loadAccount(user.publicKey());
+        const paymentTx = new TransactionBuilder(horizonAcc, { fee: BASE_FEE, networkPassphrase: Networks.TESTNET })
+            .addOperation(Operation.payment({
+                destination: winner,
+                asset: Asset.native(),
+                amount: reward
+            }))
+            .setTimeout(30)
+            .build();
+        paymentTx.sign(user);
+        const paymentResult = await horizon.submitTransaction(paymentTx);
+        const realHash = paymentResult.hash;
+
+        ctx.reply(`✅ **Payment Confirmed!** Hash: \`${realHash.slice(0, 8)}\`...\n🏛️ **Closing Task on Blockchain...**`);
+
+        // Step 3: Update Contract State with Real Hash
+        const sorobanAcc = await server.getAccount(user.publicKey());
+        const contractOp = contract.call(
             "pick_winner",
             xdr.ScVal.scvU64(xdr.Uint64.fromString(id)),
             new Address(winner).toScVal(),
-            xdr.ScVal.scvString(`TG_AGENT_SETTLEMENT_${Date.now()}`)
+            xdr.ScVal.scvString(realHash) // <--- ASLI TRANSACTION HASH
         );
 
-        const tx = new TransactionBuilder(account, { fee: "1500", networkPassphrase: Networks.TESTNET })
-            .addOperation(op).setTimeout(30).build();
+        const contractTx = new TransactionBuilder(sorobanAcc, { fee: "1500", networkPassphrase: Networks.TESTNET })
+            .addOperation(contractOp).setTimeout(30).build();
 
-        const prepared = await server.prepareTransaction(tx);
+        const prepared = await server.prepareTransaction(contractTx);
         prepared.sign(user);
         const result = await server.sendTransaction(prepared);
 
         if (result.status !== "ERROR") {
-            ctx.reply(`🏆 **Winner Crowned!** XLM payment released.\n\n🔗 [Transaction View](https://stellar.expert/explorer/testnet/tx/${result.hash})`, { parse_mode: "Markdown" });
+            ctx.reply(`🏆 **Task #${id} Closed Successfully!**\n\n🏆 **Winner:** \`${winner.slice(0,12)}...\`\n💰 **Amount:** ${reward} XLM\n🔗 **Payment Proof:** [Stellar Expert](https://stellar.expert/explorer/testnet/tx/${realHash})\n📝 **Registry Update:** [View](https://stellar.expert/explorer/testnet/tx/${result.hash})`, { 
+                parse_mode: "Markdown",
+                link_preview_options: { is_disabled: true }
+            });
         } else {
-            ctx.reply("❌ Failed to release payment.");
+            ctx.reply(`⚠️ **Payment was sent, but contract update failed.**\n\nPayment Hash: \`${realHash}\`\nPlease manually close the task or contact support.`);
         }
     } catch (e: any) {
-        ctx.reply("❌ Pick winner error: " + (e.message || "RPC Error"));
+        ctx.reply("❌ Transaction Error: " + (e.message || "Unknown error"));
+        console.error(e);
     }
 });
 
