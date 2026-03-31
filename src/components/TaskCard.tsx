@@ -105,7 +105,15 @@ const TaskCard = ({ task, publicKey, onUpdate, index, onPaymentSuccess }: TaskCa
             </div>
             <div className="flex items-center text-xs text-muted-foreground font-mono">
               <Clock className="w-3.5 h-3.5 mr-1" />
-              {formatDistanceToNow(new Date(task.createdAt), { addSuffix: true })}
+              {(() => {
+                try {
+                  const date = new Date(task.createdAt || Date.now());
+                  if (isNaN(date.getTime())) throw new Error("Invalid date");
+                  return formatDistanceToNow(date, { addSuffix: true });
+                } catch (e) {
+                  return "Just now";
+                }
+              })()}
             </div>
           </div>
 
