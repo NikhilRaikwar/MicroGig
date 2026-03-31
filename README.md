@@ -1,99 +1,85 @@
-# MicroGig 🌌 | Stellar Journey to Mastery - Levels 1, 2, 3 & 4
+# MicroGig 🌌 | Stellar Journey to Mastery - Levels 1–5
 
 ![MicroGig CI](https://github.com/NikhilRaikwar/MicroGig/actions/workflows/ci.yml/badge.svg)
 
-**MicroGig** has evolved into a full-stack dApp! For Level 2, we moved the entire task registry to the Stellar Blockchain using a **Soroban Smart Contract**.
+**MicroGig** is a decentralized micro-task economy on the Stellar Network, where humans and AI agents collaborate to solve small-scale bounties with instant, low-fee settlements.
 
-## 🚀 Levels
+## 🟦 Level 5 - BLUE BELT (FINAL SUBMISSION)
 
-| Badge | Status | Documentation |
-| :--- | :--- | :--- |
-| **White Belt** ⚪ | Completed | [Level 1](./docs/WHITE_BELT.md) |
-| **Yellow Belt** 🟡 | Completed | [Level 2](./docs/YELLOW_BELT.md) |
-| **Orange Belt** 🟠 | Completed | [Level 3](./docs/ORANGE_BELT.md) |
-| **Green Belt** 💚 | Completed | [Level 4](./docs/GREEN_BELT.md) |
-
----
-
-## ⚪ Level 1 (White Belt) Highlights
-
-- [x] **Wallet Connection**: Integrated Freighter wallet for user authentication.
-- [x] **Basic Payments**: Enabled sending peer-to-peer XLM payments on Testnet.
-- [x] **Account Info**: Real-time display of user's XLM balance and address.
-- [x] **Transaction Status**: Visual feedback for payment progress.
+This level marks the evolution into a fully **Autonomous AI Agent Economy**. 
+- **Interactive AI Wizard**: Creators can now architect bounties through a conversational interface.
+- **Telegram Master Agent**: The entire marketplace lifecycle is accessible via [@microgig_bot](https://t.me/microgig_bot).
+- **Categorized Registry**: Smart Contract V2 upgraded for agentic discovery and indexing.
+- **User Portability**: Exportable private keys for Freighter integration.
 
 ---
 
-## 🟡 Level 2 (Yellow Belt) Highlights
+## 🏛️ Smart Contract Links
 
-- [x] **Registry Contract**: Custom Rust contract (`GigRegistry`) deployed to Testnet.
-- [x] **Storage**: Tasks are permanently stored on-chain (contract state), not local storage.
-- [x] **New Features**: 
-    - **Multi-Submission**: Multiple workers can submit work regarding a single gig.
-    - **Winner Selection**: Creator picks the winner on-chain.
-    - **Receipt Storage**: Payment transaction hash is stored permanently on-chain.
-- [x] **Contract ID**: `CCIMNZ2TTDBRAONQE56XAQUGCNM7IBKNWKDTK42DYRMQUABJ45IOOSQV`
+### ✨ Active Contract (V2.0 - Blue Belt)
+- **ID**: `CA2MV2V7TK6SNHFWLEWQZ67ILO2AMQ3AC7DYE75KAOI3W7VYT3WLNSZE`
+- **Link**: [Stellar Expert V2](https://lab.stellar.org/r/testnet/contract/CA2MV2V7TK6SNHFWLEWQZ67ILO2AMQ3AC7DYE75KAOI3W7VYT3WLNSZE)
 
-### 📸 Level 2 Proofs
-- **Multi-Wallet UI Screenshot**: [View Image](https://github.com/user-attachments/assets/50f41a0b-e238-4b8b-934e-6cb8e5883867)
-- **Verified Contract Call**: [View Tx on Stellar Expert](https://stellar.expert/explorer/testnet/tx/250ee016ae2431ded5a00fe50507b9903bd392eaef3d7c7f2467074dd04f3f7a)
-- **Error Types Handled**:
-  1. **Wallet Not Found**: Prompts installation.
-  2. **User Rejection**: Catches cancellation errors.
-  3. **RPC Failure**: Handles simulation errors gracefully.
+### 📜 Legacy Contract (V1.0 - Orange/Green Belt)
+- **ID**: `CCIMNZ2TTDBRAONQE56XAQUGCNM7IBKNWKDTK42DYRMQUABJ45IOOSQV`
+- **Link**: [Stellar Expert V1](https://stellar.expert/explorer/testnet/contract/CCIMNZ2TTDBRAONQE56XAQUGCNM7IBKNWKDTK42DYRMQUABJ45IOOSQV)
 
 ---
 
-## 🟠 Level 3 (Orange Belt) Highlights
+## 🚀 Mastery Journey
 
-- [x] **Performance**: Implemented basic caching to optimize RPC calls.
-- [x] **Quality**: 100% test coverage for core utility functions (Vitest).
-- [x] **Transparency**: Automated transaction tracking and verifiable receipts.
-- [x] **Demo Video**: [Full Walkthrough (1min)](https://youtu.be/3kPygvjFNS0)
-- [x] **Verified Tx**: [pick_winner (250ee01...)](https://stellar.expert/explorer/testnet/tx/250ee016ae2431ded5a00fe50507b9903bd392eaef3d7c7f2467074dd04f3f7a)
+### ⚪ Level 1: White Belt - Foundation
+- Project scaffolding and Stellar Testnet environment setup.
+- Basic interactive UI for task visualization.
+- Integration with Stellar Friendbot for testnet funding.
+- [View Doc](./docs/WHITE_BELT.md)
+
+### 🟡 Level 2: Yellow Belt - Blockchain Integration
+- First deployment of `GigRegistry` Soroban Smart Contract.
+- Implementation of `post_gig` on-chain events.
+- Wallet connection support via Freighter extension.
+- [View Doc](./docs/YELLOW_BELT.md)
+
+### 🟠 Level 3: Orange Belt - Multi-Gig Marketplace
+- Full CRUD operations for on-chain bounties.
+- Advanced wallet management and balance tracking.
+- Implementation of multi-user task claiming logic.
+- [View Doc](./docs/ORANGE_BELT.md)
+
+### 💚 Level 4: Green Belt - Agent Orchestration
+- Integration of the **Agent Arena** Observatory.
+- Real-time Soroban event polling for activity feeds.
+- First AI agent experiments for task categorization.
+- [View Doc](./docs/GREEN_BELT.md)
+
+### 🟦 Level 5: Blue Belt - Autonomous Master Agent
+- Full marketplace lifecycle migrated to **Telegram (@microgig_bot)**.
+- Autonomous AI evaluator for submission scoring.
+- Final user validation and feedback iteration.
+- [View Doc](./docs/BLUE_BELT.md)
 
 ---
 
-## 💚 Level 4 (Green Belt) Highlights
+## 🏗️ Technical Architecture
+MicroGig follows a robust three-layered approach: 
+1. **Soroban Core**: Immutable logic for reward escrow and worker verification.
+2. **AI Orchestration**: GPT-4o powered agents for task refinement and evaluation.
+3. **Omnichannel Interface**: Concurrent support for Web Dashboard and Telegram Mobile Bot.
+- [Full ARCHITECTURE.md](./docs/ARCHITECTURE.md)
 
-- [x] **Production Ready**: Full CI/CD pipeline integrated via GitHub Actions.
-- [x] **Mobile First**: 100% responsive design for all device sizes.
-- [x] **Event Streaming**: Core support for Soroban real-time event tracking.
-- [x] **Error Tracking**: Advanced RPC error diagnostics for production debugging.
-- [x] **Persistence**: Automatic wallet session management across refreshes.
+---
 
-### 📝 Soroban Contract
-The smart contract logic is located in `contracts/gig-registry` and follows standard Soroban project structure.
-- **Source**: [`contracts/gig-registry/src/lib.rs`](./contracts/gig-registry/src/lib.rs)
-- **Config**: [`contracts/gig-registry/Cargo.toml`](./contracts/gig-registry/Cargo.toml)
+## 🎥 Deliverables
+- **Live Demo (Web)**: [https://microgig.vercel.app/](https://microgig.vercel.app/)
+- **Live Assistant (Telegram)**: [@microgig_bot](https://t.me/microgig_bot)
+- **Demo Video**: [Watch Walkthrough (Placeholder)](#)
+- **User Validation**: [Excel Feedback Summary (Placeholder)](#)
 
 ---
 
 ## 🛠️ Project Structure
-- `src/lib/contract.ts`: Contract logic and typing.
-- `src/pages/GigDetail.tsx`: UI for viewing tasks and selecting winners.
-- `contracts/gig-registry`: Rust Soroban Contract Source and Configuration.
-- `docs/`: Detailed documentation for each level.
-
-## ⚙️ Setup & Installation
-
-### 1. Prerequisites
-- [Node.js](https://nodejs.org/) (v18 or higher)
-- [Freighter Wallet](https://www.freighter.app/) extension installed in your browser.
-- Set Freighter to **Testnet** (Settings -> Network -> Testnet).
-
-### 2. Run Locally
-```bash
-# Clone the repository and enter the directory
-cd microgig-stellar-pay-main
-
-# Install dependencies
-npm install
-
-# Start the development server
-npm run dev
-```
-Open [http://localhost:8080](http://localhost:8080) in your browser.
-
----
-Built for the **Stellar Journey to Mastery** • 2026
+- `agents/telegram_bot.ts`: The mobile autonomous gateway.
+- `src/lib/contract.ts`: V2 Categorized contract integration.
+- `src/pages/Agents.tsx`: The Agent Arena observatory dashboard.
+- `docs/`: Technical Blueprints for all mastery levels.
+- `contracts/`: Rust source for Soroban smart contracts.
