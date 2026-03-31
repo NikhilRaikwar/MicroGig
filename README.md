@@ -69,12 +69,22 @@ MicroGig follows a robust three-layered approach:
 
 ---
 
-## 🎥 Deliverables
-- **Live Demo (Web)**: [https://microgig.vercel.app/](https://microgig.vercel.app/)
-- **Live Assistant (Telegram)**: [@microgig_bot](https://t.me/microgig_bot)
 - **Demo Video**: [Watch Level 5 Walkthrough](https://youtu.be/bK1EdcGZ1U8)
-- **User Feedback**: [Excel Live Summary](https://docs.google.com/spreadsheets/d/1vma-q0d89ouBb64qba80F_mia4fii8YVhmGhkpUrz78/edit?usp=sharing)
+
+### 📊 User Validation & Proof
+- **Feedback Summary**: [Excel Live Data Responses](https://docs.google.com/spreadsheets/d/1vma-q0d89ouBb64qba80F_mia4fii8YVhmGhkpUrz78/edit?usp=sharing)
 - **Give Feedback**: [Join the Testnet Form](https://forms.gle/THjMJETFguVZ4EzR6)
+
+#### Verified Testnet User Wallets (Level 5)
+| # | Verifiable Stellar Wallet Address | Status |
+|---|---|---|
+| 1 | `GAX5BQDVLCYOKAO5HXFBOD52KZL66A4OY55RDRYPISGIPQ3LNPAGYYAX` | Verified ✅ |
+| 2 | `GC7D2RQ3NNEWOTXBO54LAOOARVAZYDQDVKFDV75NDQKMGW2PREFU5Y4R` | Verified ✅ |
+| 3 | `GDZVEVXBD7Q7P3EVBDNRVWK373A47XC76PLUKMEJHCKZCE3EOVSXBDAX` | Verified ✅ |
+| 4 | `GD3FRBMXOCKK3DHWVOXD2CPE33B4W6WERNYTP2L6U743B3FS54GX6XUC` | Verified ✅ |
+| 5 | `GBBCKPNNW7CSYJ6OAX7BS3U3WI53C3BJJIBHNF2B7QMJWYAC6FL32CCQ` | Verified ✅ |
+| 6 | `GA7GYUUVREDU6VZMM4Y3LFNCSZJEYU7ZRU7DCSYSTECFEQM3ORLJ5C4K` | Verified ✅ |
+| 7 | `GDPIS6MBGO6VINCBABZSL4W2C7QXNBWWXOMBE5PI22IYIKRDGSAV4JI3` | Verified ✅ |
 
 ---
 

@@ -31,10 +31,20 @@
 
 ## 👥 User Validation & Feedback
 
-### 📊 Feedback Documentation
-The system was tested with **5+ real testnet users** to validate the Telegram-first workflow.
-- **Google Form (Live)**: [MicroGig Testnet User Feedback Form](https://forms.gle/THjMJETFguVZ4EzR6)
-- **Exported Excel Data**: [View User Feedback Responses](https://docs.google.com/spreadsheets/d/1vma-q0d89ouBb64qba80F_mia4fii8YVhmGhkpUrz78/edit?usp=sharing)
+### 📊 Feedback Documentation & User Verification
+The system was tested with **7 real testnet users** to validate the autonomous Telegram-first workflow.
+- **Feedback Summary (Excel)**: [View Live User Responses](https://docs.google.com/spreadsheets/d/1vma-q0d89ouBb64qba80F_mia4fii8YVhmGhkpUrz78/edit?usp=sharing)
+- **Stellar Explorer Proof**:
+
+| User | Stellar Wallet Address (Testnet) | Status |
+|---|---|---|
+| User 1 | `GAX5BQDVLCYOKAO5HXFBOD52KZL66A4OY55RDRYPISGIPQ3LNPAGYYAX` | Verified ✅ |
+| User 2 | `GC7D2RQ3NNEWOTXBO54LAOOARVAZYDQDVKFDV75NDQKMGW2PREFU5Y4R` | Verified ✅ |
+| User 3 | `GDZVEVXBD7Q7P3EVBDNRVWK373A47XC76PLUKMEJHCKZCE3EOVSXBDAX` | Verified ✅ |
+| User 4 | `GD3FRBMXOCKK3DHWVOXD2CPE33B4W6WERNYTP2L6U743B3FS54GX6XUC` | Verified ✅ |
+| User 5 | `GBBCKPNNW7CSYJ6OAX7BS3U3WI53C3BJJIBHNF2B7QMJWYAC6FL32CCQ` | Verified ✅ |
+| User 6 | `GA7GYUUVREDU6VZMM4Y3LFNCSZJEYU7ZRU7DCSYSTECFEQM3ORLJ5C4K` | Verified ✅ |
+| User 7 | `GDPIS6MBGO6VINCBABZSL4W2C7QXNBWWXOMBE5PI22IYIKRDGSAV4JI3` | Verified ✅ |
 
 ### 🔄 Documented Iteration (V2.1)
 **Initial Issue**: Users found it difficult to estimate the XLM reward during one-command creation.
