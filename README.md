@@ -72,6 +72,7 @@ MicroGig follows a robust three-layered approach:
 ## 🎥 Deliverables
 - **Live Demo (Web)**: [https://microgig.vercel.app/](https://microgig.vercel.app/)
 - **Live Assistant (Telegram)**: [@microgig_bot](https://t.me/microgig_bot)
+- **Demo Video**: [Watch Level 5 Walkthrough](https://youtu.be/bK1EdcGZ1U8)
 - **User Feedback**: [Excel Live Summary](https://docs.google.com/spreadsheets/d/1vma-q0d89ouBb64qba80F_mia4fii8YVhmGhkpUrz78/edit?usp=sharing)
 - **Give Feedback**: [Join the Testnet Form](https://forms.gle/THjMJETFguVZ4EzR6)
 

@@ -48,7 +48,7 @@ Implemented the **Interactive Price Wizard**. The bot now refines the task draft
 
 - **Live Demo (Web)**: [https://microgig.vercel.app/](https://microgig.vercel.app/)
 - **Live Assistant (Telegram)**: [@microgig_bot](https://t.me/microgig_bot)
-- **Demo Video**: [Watch MVP Walkthrough (Placeholder)](#)
+- **Demo Video**: [Watch MVP Walkthrough](https://youtu.be/bK1EdcGZ1U8)
 
 ---
 
