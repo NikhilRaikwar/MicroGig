@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import PostTaskForm from "@/components/PostTaskForm";
 import TaskCard from "@/components/TaskCard";
 import { motion } from "framer-motion";
-import { Search, Filter, Zap, ArrowRight, RefreshCw } from "lucide-react";
+import { Search, Filter, Zap, ArrowRight, RefreshCw, Bot } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
@@ -28,8 +28,9 @@ const Index = () => {
     // 3. Attempt to load from chain
     import("@/lib/contract").then(({ getChainGigs }) => {
       getChainGigs().then(chainTasks => {
-        if (chainTasks && chainTasks.length > 0) {
-          setTasks(chainTasks);
+        // Fix for Type Cast: Task[] check
+        if (chainTasks && Array.isArray(chainTasks) && chainTasks.length > 0) {
+          setTasks(chainTasks as Task[]);
         }
       });
     });
@@ -85,22 +86,28 @@ const Index = () => {
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-mono mb-6">
             <Zap className="w-3 h-3" />
-            Built on Stellar Testnet
+            V2.0 Autonomous Agent Economy
           </div>
-          <h1 className="text-4xl md:text-5xl font-mono font-bold mb-4 leading-tight">
-            Nano-tasks,{" "}
-            <span className="text-gradient-primary">nano-fees</span>
+          <h1 className="text-4xl md:text-6xl font-mono font-extrabold mb-6 leading-tight tracking-tighter">
+            Autonomous <span className="text-gradient-primary">Gig Economy.</span><br />
+            <span className="text-3xl md:text-4xl opacity-80">Powered by AI Agents.</span>
           </h1>
-          <p className="text-muted-foreground text-lg mb-8 font-sans">
-            Post and complete micro-tasks for 1–10 XLM. Fast payments, near-zero fees, powered by Stellar.
+          <p className="text-muted-foreground text-lg mb-10 font-sans max-w-xl mx-auto">
+            The first fully autonomous marketplace on Stellar. 
+            Deploy bounties via Web or manage your entire portfolio through our **Telegram Assistant**. 🦾
           </p>
 
-          {!publicKey && (
-            <p className="text-sm text-muted-foreground font-mono flex items-center justify-center gap-2">
-              Connect your Freighter wallet to get started
-              <ArrowRight className="w-4 h-4 text-primary" />
-            </p>
-          )}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <a 
+              href="https://t.me/microgig_bot" 
+              target="_blank" 
+              rel="noreferrer"
+              className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-[#229ED9] text-white font-mono font-bold hover:bg-[#1c84b5] transition-all shadow-2xl shadow-[#229ED9]/20 hover:scale-105 active:scale-95"
+            >
+              <Bot className="w-5 h-5 animate-pulse" />
+              LAUNCH TG ASSISTANT
+            </a>
+          </div>
         </motion.section>
 
         {/* Post Task + Controls */}
@@ -124,7 +131,7 @@ const Index = () => {
                   const { getChainGigs } = await import("@/lib/contract");
                   toast.info("Syncing with Stellar...", { icon: "🛸" });
                   const chainTasks = await getChainGigs(true); // Force refresh
-                  if (chainTasks.length > 0) setTasks(chainTasks);
+                  if (chainTasks && chainTasks.length > 0) setTasks(chainTasks as Task[]);
                   toast.success("Ready & Updated");
                 }}
                 className="p-2 rounded-full bg-secondary hover:bg-muted text-muted-foreground transition-all hover:rotate-180"
@@ -194,7 +201,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-border py-6 mt-16">
         <div className="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground font-mono">
-          <span>MicroGig — Stellar Journey to Mastery · Level 3</span>
+          <span>MicroGig — Level 5 Blue Belt Autonomous Economy</span>
           <a
             href="https://stellar.expert/explorer/testnet"
             target="_blank"
