@@ -84,8 +84,9 @@ MicroGig follows a robust three-layered approach:
 | @t_a_n_a_y_shrivastava | shrivastavatanay22@gmail.com | `GDZVEVXBD7Q7P3EVBDNRVWK373A47XC76PLUKMEJHCKZCE3EOVSXBDAX` | UI / Security | Nope | [View Post](https://x.com/Tanay__22/status/2038997114626437538?s=20) | No revisions required |
 | @amb758 | jainamber758@gmail.com | `GD3FRBMXOCKK3DHWVOXD2CPE33B4W6WERNYTP2L6U743B3FS54GX6XUC` | Task Creation | Helpful bot makes your task very easy | [View Post](https://x.com/i/status/2039011115775209484) | No revisions required |
 | Vaibhav | vaibhavsatna37@gmail.com | `GBBCKPNNW7CSYJ6OAX7BS3U3WI53C3BJJIBHNF2B7QMJWYAC6FL32CCQ` | AI Architecture | No comments | [View Post](https://x.com/vaibhavshr30110/status/2039029151697703303?s=46) | No revisions required |
-| @goku671 | amantamrakar1412@gmail.com | `GA7GYUUVREDU6VZMM4Y3LFNCSZJEYU7ZRU7DCSYSTECFEQM3ORLJ5C4K` | AI Architecture | Good | [View Post](https://x.com/i/status/2039033184747429919) | No revisions required |
+| @goku671 | amantamrakar1412@gmail.com | `GA7GYUUVREDU6VZMM4Y3LFNCSZJEYU7ZRU7DCSYSTECEYU7ZRU7DCSYSTEC` | AI Architecture | Good | [View Post](https://x.com/i/status/2039033184747429919) | No revisions required |
 | Anuragg89 | anuragtamrakar1412@gmail.com | `GDPIS6MBGO6VINCBABZSL4W2C7QXNBWWXOMBE5PI22IYIKRDGSAV4JI3` | Task Creation | Very nice and easy | [View Post](https://x.com/i/status/2039033888933392389) | No revisions required |
+| viveksahu126331 | viveksahu13897@gmail.com | `GDWURFQJJ2RX7LW6QUES6VVYGVH4OF3RR4ACAPM7OVTVCMUEJB7YCD7V` | Task Creation | As a first-year computer science student, By a testing a Web3 project! The bot was very beginner-friendly, and I loved how it guided me to create my HTML/CSS bounty. One small bug I noticed: when I typed the /create command, the bot froze, and I had to send the command a second time to get it to work. Otherwise, it was a really smooth experience! | [View Post](https://x.com/i/status/2039175650788216879) | [Already Fixed (TG Network Sync) - `22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
 
 
 ---
