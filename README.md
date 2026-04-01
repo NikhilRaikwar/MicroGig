@@ -72,19 +72,21 @@ MicroGig follows a robust three-layered approach:
 - **Demo Video**: [Watch Level 5 Walkthrough](https://youtu.be/bK1EdcGZ1U8)
 
 ### 📊 User Validation & Proof
-- **Feedback Summary**: [Excel Live Data Responses](https://docs.google.com/spreadsheets/d/1vma-q0d89ouBb64qba80F_mia4fii8YVhmGhkpUrz78/edit?usp=sharing)
+
+- **✅ LIVE FEEDBACK RESPONSE SHEET**: [Google Sheets - User Responses](https://docs.google.com/spreadsheets/d/1vma-q0d89ouBb64qba80F_mia4fii8YVhmGhkpUrz78/edit?usp=sharing)
 - **Give Feedback**: [Join the Testnet Form](https://forms.gle/THjMJETFguVZ4EzR6)
 
-#### Verified Testnet User Wallets (Level 5)
-| # | Verifiable Stellar Wallet Address | Status |
-|---|---|---|
-| 1 | `GAX5BQDVLCYOKAO5HXFBOD52KZL66A4OY55RDRYPISGIPQ3LNPAGYYAX` | Verified ✅ |
-| 2 | `GC7D2RQ3NNEWOTXBO54LAOOARVAZYDQDVKFDV75NDQKMGW2PREFU5Y4R` | Verified ✅ |
-| 3 | `GDZVEVXBD7Q7P3EVBDNRVWK373A47XC76PLUKMEJHCKZCE3EOVSXBDAX` | Verified ✅ |
-| 4 | `GD3FRBMXOCKK3DHWVOXD2CPE33B4W6WERNYTP2L6U743B3FS54GX6XUC` | Verified ✅ |
-| 5 | `GBBCKPNNW7CSYJ6OAX7BS3U3WI53C3BJJIBHNF2B7QMJWYAC6FL32CCQ` | Verified ✅ |
-| 6 | `GA7GYUUVREDU6VZMM4Y3LFNCSZJEYU7ZRU7DCSYSTECFEQM3ORLJ5C4K` | Verified ✅ |
-| 7 | `GDPIS6MBGO6VINCBABZSL4W2C7QXNBWWXOMBE5PI22IYIKRDGSAV4JI3` | Verified ✅ |
+#### 🛡️ Detailed User Feedback & Proof of Mastery (Level 5)
+| User Name | Contact/Email | Stellar Wallet Address | Feature Valued | User Feedback | Social Proof (X Link) | Commit ID (Fix/Action) |
+|-----------|---------------|-----------------------|---------------|---------------|-----------------------|-------------------------|
+| shivamsoni212 | sonis8119@gmail.com | `GAX5BQDVLCYOKAO5HXFBOD52KZL66A4OY55RDRYPISGIPQ3LNPAGYYAX` | Testnet Faucet | Smooth working of bot is appreciating. | [View Post](https://x.com/shivam_soni18/status/2038961142975148379?s=20) | No revisions required |
+| @SumitRaikwar18 | raikwarsumit19@gmail.com | `GC7D2RQ3NNEWOTXBO54LAOOARVAZYDQDVKFDV75NDQKMGW2PREFU5Y4R` | Bounty Creation | Nothing All is good in Agent | [View Post](https://x.com/i/status/2038991870047789417) | No revisions required |
+| @t_a_n_a_y_shrivastava | shrivastavatanay22@gmail.com | `GDZVEVXBD7Q7P3EVBDNRVWK373A47XC76PLUKMEJHCKZCE3EOVSXBDAX` | UI / Security | Nope | [View Post](https://x.com/Tanay__22/status/2038997114626437538?s=20) | No revisions required |
+| @amb758 | jainamber758@gmail.com | `GD3FRBMXOCKK3DHWVOXD2CPE33B4W6WERNYTP2L6U743B3FS54GX6XUC` | Task Creation | Helpful bot makes your task very easy | [View Post](https://x.com/i/status/2039011115775209484) | No revisions required |
+| Vaibhav | vaibhavsatna37@gmail.com | `GBBCKPNNW7CSYJ6OAX7BS3U3WI53C3BJJIBHNF2B7QMJWYAC6FL32CCQ` | AI Architecture | No comments | [View Post](https://x.com/vaibhavshr30110/status/2039029151697703303?s=46) | No revisions required |
+| @goku671 | amantamrakar1412@gmail.com | `GA7GYUUVREDU6VZMM4Y3LFNCSZJEYU7ZRU7DCSYSTECFEQM3ORLJ5C4K` | AI Architecture | Good | [View Post](https://x.com/i/status/2039033184747429919) | No revisions required |
+| Anuragg89 | anuragtamrakar1412@gmail.com | `GDPIS6MBGO6VINCBABZSL4W2C7QXNBWWXOMBE5PI22IYIKRDGSAV4JI3` | Task Creation | Very nice and easy | [View Post](https://x.com/i/status/2039033888933392389) | No revisions required |
+
 
 ---
 
