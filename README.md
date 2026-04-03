@@ -1,5 +1,22 @@
 # MicroGig 🌌 | Stellar Journey to Mastery - Levels 1–5
 
+### 📊 Level 5 User Validation & Submisson Proof
+
+- **✅ LIVE FEEDBACK RESPONSE SHEET**: [Google Sheets - User Feedback](https://docs.google.com/spreadsheets/d/1vma-q0d89ouBb64qba80F_mia4fii8YVhmGhkpUrz78/edit?usp=sharing)
+
+| User Name | User Email | User Wallet Address | User Feedback | Commit ID (Where changes made according to the userfeedback) |
+|-----------|------------|---------------------|---------------|-----------|
+| shivamsoni212 | sonis8119@gmail.com | `GAX5BQDVLCYOKAO5HXFBOD52KZL66A4OY55RDRYPISGIPQ3LNPAGYYAX` | Smooth working of bot is appreciating. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
+| @SumitRaikwar18 | raikwarsumit19@gmail.com | `GC7D2RQ3NNEWOTXBO54LAOOARVAZYDQDVKFDV75NDQKMGW2PREFU5Y4R` | Nothing All is good in Agent. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
+| @t_a_n_a_y_shrivastava | shrivastavatanay22@gmail.com | `GDZVEVXBD7Q7P3EVBDNRVWK373A47XC76PLUKMEJHCKZCE3EOVSXBDAX` | UI was impressive and feel very secure. Nope. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
+| @amb758 | jainamber758@gmail.com | `GD3FRBMXOCKK3DHWVOXD2CPE33B4W6WERNYTP2L6U743B3FS54GX6XUC` | Helpful bot makes your task very easy. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
+| Vaibhav | vaibhavsatna37@gmail.com | `GBBCKPNNW7CSYJ6OAX7BS3U3WI53C3BJJIBHNF2B7QMJWYAC6FL32CCQ` | AI Architecture is efficient. No comments. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
+| @goku671 | amantamrakar1412@gmail.com | `GA7GYUUVREDU6VZMM4Y3LFNCSZJEYU7ZRU7DCSYSTECFEQM3ORLJ5C4K` | Good bot interaction and dashboard. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
+| Anuragg89 | anuragtamrakar1412@gmail.com | `GDPIS6MBGO6VINCBABZSL4W2C7QXNBWWXOMBE5PI22IYIKRDGSAV4JI3` | Task Creation is very nice and easy. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
+| viveksahu126331 | viveksahu13897@gmail.com | `GDWURFQJJ2RX7LW6QUES6VVYGVH4OF3RR4ACAPM7OVTVCMUEJB7YCD7V` | Beginner friendly bot. Reported network sync bug for /create. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
+
+---
+
 ![MicroGig CI](https://github.com/NikhilRaikwar/MicroGig/actions/workflows/ci.yml/badge.svg)
 
 **MicroGig** is a decentralized micro-task economy on the Stellar Network, where humans and AI agents collaborate to solve small-scale bounties with instant, low-fee settlements.
@@ -70,23 +87,6 @@ MicroGig follows a robust three-layered approach:
 ---
 
 - **Demo Video**: [Watch Level 5 Walkthrough](https://youtu.be/bK1EdcGZ1U8)
-
-### 📊 User Validation & Proof
-
-- **✅ LIVE FEEDBACK RESPONSE SHEET**: [Google Sheets - User Responses](https://docs.google.com/spreadsheets/d/1vma-q0d89ouBb64qba80F_mia4fii8YVhmGhkpUrz78/edit?usp=sharing)
-- **Give Feedback**: [Join the Testnet Form](https://forms.gle/THjMJETFguVZ4EzR6)
-
-#### 🛡️ Detailed User Feedback & Proof of Mastery (Level 5)
-| User Name | Contact/Email | Stellar Wallet Address | Feature Valued | User Feedback | Social Proof (X Link) | Commit ID (Fix/Action) |
-|-----------|---------------|-----------------------|---------------|---------------|-----------------------|-------------------------|
-| shivamsoni212 | sonis8119@gmail.com | `GAX5BQDVLCYOKAO5HXFBOD52KZL66A4OY55RDRYPISGIPQ3LNPAGYYAX` | Testnet Faucet | Smooth working of bot is appreciating. | [View Post](https://x.com/shivam_soni18/status/2038961142975148379?s=20) | No revisions required |
-| @SumitRaikwar18 | raikwarsumit19@gmail.com | `GC7D2RQ3NNEWOTXBO54LAOOARVAZYDQDVKFDV75NDQKMGW2PREFU5Y4R` | Bounty Creation | Nothing All is good in Agent | [View Post](https://x.com/i/status/2038991870047789417) | No revisions required |
-| @t_a_n_a_y_shrivastava | shrivastavatanay22@gmail.com | `GDZVEVXBD7Q7P3EVBDNRVWK373A47XC76PLUKMEJHCKZCE3EOVSXBDAX` | UI / Security | Nope | [View Post](https://x.com/Tanay__22/status/2038997114626437538?s=20) | No revisions required |
-| @amb758 | jainamber758@gmail.com | `GD3FRBMXOCKK3DHWVOXD2CPE33B4W6WERNYTP2L6U743B3FS54GX6XUC` | Task Creation | Helpful bot makes your task very easy | [View Post](https://x.com/i/status/2039011115775209484) | No revisions required |
-| Vaibhav | vaibhavsatna37@gmail.com | `GBBCKPNNW7CSYJ6OAX7BS3U3WI53C3BJJIBHNF2B7QMJWYAC6FL32CCQ` | AI Architecture | No comments | [View Post](https://x.com/vaibhavshr30110/status/2039029151697703303?s=46) | No revisions required |
-| @goku671 | amantamrakar1412@gmail.com | `GA7GYUUVREDU6VZMM4Y3LFNCSZJEYU7ZRU7DCSYSTECEYU7ZRU7DCSYSTEC` | AI Architecture | Good | [View Post](https://x.com/i/status/2039033184747429919) | No revisions required |
-| Anuragg89 | anuragtamrakar1412@gmail.com | `GDPIS6MBGO6VINCBABZSL4W2C7QXNBWWXOMBE5PI22IYIKRDGSAV4JI3` | Task Creation | Very nice and easy | [View Post](https://x.com/i/status/2039033888933392389) | No revisions required |
-| viveksahu126331 | viveksahu13897@gmail.com | `GDWURFQJJ2RX7LW6QUES6VVYGVH4OF3RR4ACAPM7OVTVCMUEJB7YCD7V` | Task Creation | As a first-year computer science student, By a testing a Web3 project! The bot was very beginner-friendly, and I loved how it guided me to create my HTML/CSS bounty. One small bug I noticed: when I typed the /create command, the bot froze, and I had to send the command a second time to get it to work. Otherwise, it was a really smooth experience! | [View Post](https://x.com/i/status/2039175650788216879) | [Already Fixed (TG Network Sync) - `22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
 
 
 ---

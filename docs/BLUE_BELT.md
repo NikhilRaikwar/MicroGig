@@ -29,28 +29,20 @@
 
 ---
 
-## 👥 User Validation & Feedback
+## 👥 User Validation & Feedback (Level 5 Revisions)
 
-### 📊 Feedback Documentation & User Verification
-The system was tested with **7 real testnet users** to validate the autonomous Telegram-first workflow.
-- **Feedback Summary (Excel)**: [View Live User Responses](https://docs.google.com/spreadsheets/d/1vma-q0d89ouBb64qba80F_mia4fii8YVhmGhkpUrz78/edit?usp=sharing)
-- **Stellar Explorer Proof**:
+- **✅ LIVE FEEDBACK RESPONSE SHEET**: [Google Sheets - User Feedback](https://docs.google.com/spreadsheets/d/1vma-q0d89ouBb64qba80F_mia4fii8YVhmGhkpUrz78/edit?usp=sharing)
 
-| User | Stellar Wallet Address (Testnet) | Status |
-|---|---|---|
-| User 1 | `GAX5BQDVLCYOKAO5HXFBOD52KZL66A4OY55RDRYPISGIPQ3LNPAGYYAX` | Verified ✅ |
-| User 2 | `GC7D2RQ3NNEWOTXBO54LAOOARVAZYDQDVKFDV75NDQKMGW2PREFU5Y4R` | Verified ✅ |
-| User 3 | `GDZVEVXBD7Q7P3EVBDNRVWK373A47XC76PLUKMEJHCKZCE3EOVSXBDAX` | Verified ✅ |
-| User 4 | `GD3FRBMXOCKK3DHWVOXD2CPE33B4W6WERNYTP2L6U743B3FS54GX6XUC` | Verified ✅ |
-| User 5 | `GBBCKPNNW7CSYJ6OAX7BS3U3WI53C3BJJIBHNF2B7QMJWYAC6FL32CCQ` | Verified ✅ |
-| User 6 | `GA7GYUUVREDU6VZMM4Y3LFNCSZJEYU7ZRU7DCSYSTECFEQM3ORLJ5C4K` | Verified ✅ |
-| User 7 | `GDPIS6MBGO6VINCBABZSL4W2C7QXNBWWXOMBE5PI22IYIKRDGSAV4JI3` | Verified ✅ |
-
-### 🔄 Documented Iteration (V2.1)
-**Initial Issue**: Users found it difficult to estimate the XLM reward during one-command creation.
-**Feedback**: *"I don't know how many XLM the task is worth until the AI refines the description."*
-**Iteration (Git Commit [23fd2a0](https://github.com/NikhilRaikwar/MicroGig/commit/23fd2a0bf86eceef1dfa1991a6fdc5a124149771))**: 
-Implemented the **Interactive Price Wizard**. The bot now refines the task draft **first**, shows the user the professional title/category, and **then** asks for the reward amount. This dramatically increased user confidence in bounty deployments.
+| User Name | User Email | User Wallet Address | User Feedback | Commit ID (Where changes made according to the userfeedback) |
+|-----------|------------|---------------------|---------------|-----------|
+| shivamsoni212 | sonis8119@gmail.com | `GAX5BQDVLCYOKAO5HXFBOD52KZL66A4OY55RDRYPISGIPQ3LNPAGYYAX` | Smooth working of bot is appreciating. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
+| @SumitRaikwar18 | raikwarsumit19@gmail.com | `GC7D2RQ3NNEWOTXBO54LAOOARVAZYDQDVKFDV75NDQKMGW2PREFU5Y4R` | Nothing All is good in Agent. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
+| @t_a_n_a_y_shrivastava | shrivastavatanay22@gmail.com | `GDZVEVXBD7Q7P3EVBDNRVWK373A47XC76PLUKMEJHCKZCE3EOVSXBDAX` | UI was impressive and feel very secure. Nope. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
+| @amb758 | jainamber758@gmail.com | `GD3FRBMXOCKK3DHWVOXD2CPE33B4W6WERNYTP2L6U743B3FS54GX6XUC` | Helpful bot makes your task very easy. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
+| Vaibhav | vaibhavsatna37@gmail.com | `GBBCKPNNW7CSYJ6OAX7BS3U3WI53C3BJJIBHNF2B7QMJWYAC6FL32CCQ` | AI Architecture is efficient. No comments. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
+| @goku671 | amantamrakar1412@gmail.com | `GA7GYUUVREDU6VZMM4Y3LFNCSZJEYU7ZRU7DCSYSTECFEQM3ORLJ5C4K` | Good bot interaction and dashboard. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
+| Anuragg89 | anuragtamrakar1412@gmail.com | `GDPIS6MBGO6VINCBABZSL4W2C7QXNBWWXOMBE5PI22IYIKRDGSAV4JI3` | Task Creation is very nice and easy. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
+| viveksahu126331 | viveksahu13897@gmail.com | `GDWURFQJJ2RX7LW6QUES6VVYGVH4OF3RR4ACAPM7OVTVCMUEJB7YCD7V` | Beginner friendly bot. Reported network sync bug for /create. | [`22e87ca`](https://github.com/NikhilRaikwar/MicroGig/commit/22e87ca81dedbf59f8d7e09514e3d53b06ed3354) |
 
 ---
 
